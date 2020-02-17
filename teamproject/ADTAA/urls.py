@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^schedulerHome/$', views.scheduler_home_page, name='schedulerHome'),
 
     # ex: /ADTAA/instrSetup/
-    url(r'^adminHome/instrSetup/$', views.setup_instructor, name='instrSetup'),
+    url(r'^instrSetup/$', views.setup_instructor, name='instrSetup'),
 
     # ex: /ADTAA/classSetup/
     url(r'^classSetup/$', views.setup_classes, name='classSetup')
