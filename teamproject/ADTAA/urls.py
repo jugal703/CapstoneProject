@@ -1,10 +1,11 @@
 from django.conf.urls import url
 from . import views
+from ADTAA.views import *
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     # ex: /ADTAA/reg/
-    url(r'^reg/$', views.reg_page, name='reg'),
+    url(r'^reg/$', Register.as_view(), name='reg'),
 
     # ex: /ADTAA/password
     url(r'^password/$', views.password_page, name='password'),
