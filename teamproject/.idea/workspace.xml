@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/teamproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/teamproject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,28 +150,28 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1582212609712" />
-    <state width="1238" height="173" key="GridCell.Tab.0.bottom" timestamp="1582647590402">
-      <screen x="0" y="23" width="1280" height="724" />
+    <state width="1493" height="207" key="GridCell.Tab.0.bottom" timestamp="1582648067236">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581901634978" />
+    <state width="1493" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582648067236" />
     <state width="1238" height="175" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1581891658576" />
     <state width="1238" height="173" key="GridCell.Tab.0.bottom/0.23.1280.724@0.23.1280.724" timestamp="1582647590402" />
-    <state width="1238" height="173" key="GridCell.Tab.0.center" timestamp="1582647590401">
-      <screen x="0" y="23" width="1280" height="724" />
+    <state width="1493" height="207" key="GridCell.Tab.0.center" timestamp="1582648067236">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581901634978" />
+    <state width="1493" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582648067236" />
     <state width="1238" height="175" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.center/0.23.1280.724@0.23.1280.724" timestamp="1582647590401" />
-    <state width="1238" height="173" key="GridCell.Tab.0.left" timestamp="1582647590400">
-      <screen x="0" y="23" width="1280" height="724" />
+    <state width="1493" height="207" key="GridCell.Tab.0.left" timestamp="1582648067236">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581901634978" />
+    <state width="1493" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582648067236" />
     <state width="1238" height="175" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.left/0.23.1280.724@0.23.1280.724" timestamp="1582647590400" />
-    <state width="1238" height="173" key="GridCell.Tab.0.right" timestamp="1582647590401">
-      <screen x="0" y="23" width="1280" height="724" />
+    <state width="1493" height="207" key="GridCell.Tab.0.right" timestamp="1582648067236">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581901634978" />
+    <state width="1493" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582648067236" />
     <state width="1238" height="175" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.right/0.23.1280.724@0.23.1280.724" timestamp="1582647590401" />
     <state x="358" y="1" key="SettingsEditor" timestamp="1582647984853">
