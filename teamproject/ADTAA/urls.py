@@ -3,7 +3,7 @@ from . import views
 from ADTAA.views import *
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', Index.as_view(), name='index'),
     # ex: /ADTAA/reg/
     url(r'^reg/$', Register.as_view(), name='reg'),
 

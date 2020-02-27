@@ -4,8 +4,32 @@ from django.views import View
 import ADTAA.models as ADTAA_models
 
 
-def index(request):
-    return render(request, 'ADTAA/index.html')
+class Index(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'ADTAA/index.html')
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email', None)
+        password = request.POST.get('password', None)
+
+        if not email or not password:
+            context = {
+                'error': 'Must Pass In Every Verify.'
+            }
+            return render(request, 'ADTAA/index.html', context=context)
+
+        user = ADTAA_models.BaseUser.objects.get(username=email)
+
+        if user.check_password(password):
+            if user.user_type == "admin":
+                return render(request, 'ADTAA/adminHome.html')
+            if user.user_type == "scheduler":
+                return render(request, 'ADTAA/schedulerHome.html')
+        else:
+            context = {
+                'error': 'No user exist'
+            }
+            return render(request, 'ADTAA/index.html', context=context)
 
 
 def root_home_page(request):
