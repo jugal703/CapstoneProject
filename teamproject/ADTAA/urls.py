@@ -10,6 +10,9 @@ urlpatterns = [
     # ex: /ADTAA/password
     url(r'^password/$', views.password_page, name='password'),
 
+    # ex: /ADTAA/password2
+    url(r'^password2/$', views.password2_page, name='password2'),
+
     # ex: /ADTAA/rootHome/
     url(r'^rootHome/$', views.root_home_page, name='rootHome'),
 

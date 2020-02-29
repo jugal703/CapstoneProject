@@ -47,6 +47,8 @@ def scheduler_home_page(request):
 def password_page(request):
     return render(request, 'ADTAA/password.html')
 
+def password2_page(request):
+    return render(request, 'ADTAA/password2.html')
 
 def setup_instructor(request):
     return render(request, 'ADTAA/instrSetup.html')
