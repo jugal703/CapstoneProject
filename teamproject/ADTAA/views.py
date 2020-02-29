@@ -56,6 +56,10 @@ def setup_classes(request):
     return render(request, 'ADTAA/classSetup.html')
 
 
+def scheduler_nav(request):
+    return render(request, 'ADTAA/schedulerNav.html')
+
+
 class Register(View):
 
     def get(self, request, *args, **kwargs):

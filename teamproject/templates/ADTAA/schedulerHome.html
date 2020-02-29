@@ -3,34 +3,30 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
+
   <title>ADTAA Home Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
 </head>
 <body style="height:1500px">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-
-    </div>
-    <ul class="nav navbar-nav">
-           <li class="active"><a href="/ADTAA/adminHome/"><img src="/static/home.png" style="width: 20px; length:20px;" alt="homeLogo" /></a></li>
-      <li><a href="/ADTAA/editSolutions/">Edit Solutions</a></li>
-        <li><a href="/ADTAA/generateSolutions/">Generate Solutions</a></li>
-    </ul>
-  </div>
-</nav>
+    {% include 'ADTAA/schedulerNav.html' %}
 
 <div class="container" style="margin-top:50px">
+
   <h3>Fixed Navbar</h3>
   <div class="row">
     <div class="col-md-4">
-      <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
-      <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
+        {% block content %}
+        {% endblock %}
     </div>
     <div class="col-md-4">
       <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>

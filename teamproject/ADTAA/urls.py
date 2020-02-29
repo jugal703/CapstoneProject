@@ -23,7 +23,10 @@ urlpatterns = [
     url(r'^instrSetup/$', views.setup_instructor, name='instrSetup'),
 
     # ex: /ADTAA/classSetup/
-    url(r'^classSetup/$', views.setup_classes, name='classSetup')
+    url(r'^classSetup/$', views.setup_classes, name='classSetup'),
+
+    # ex: /ADTAA/schedulerNav/
+    url(r'^schedulerNav/$', views.scheduler_nav, name='schedulerNav')
 
 
 
