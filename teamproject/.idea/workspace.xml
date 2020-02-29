@@ -2,40 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
-<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ADTAA/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ADTAA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/ADTAA/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/index.html" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/templates/ADTAA/schedulerNav.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ADTAA/schedulerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/schedulerHome.html" afterDir="false" />
->>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
@@ -84,29 +60,7 @@
       <recent name="$PROJECT_DIR$/templates/ADTAA" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.views">
-    <configuration name="views" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="teamproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ADTAA" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ADTAA/views.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="teamproject" type="Python.DjangoServer" factoryName="Django server">
       <module name="teamproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -131,11 +85,6 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.views" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -170,21 +119,8 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-<<<<<<< Updated upstream
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582647973475">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state x="236" y="63" key="#Inspections" timestamp="1582858840847">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state x="236" y="63" key="#Inspections/0.23.1280.724@0.23.1280.724" timestamp="1582858840847" />
-    <state x="240" y="30" width="800" height="717" key="#Intentions" timestamp="1582856331742">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state x="240" y="30" width="800" height="717" key="#Intentions/0.23.1280.724@0.23.1280.724" timestamp="1582856331742" />
-    <state x="186" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581899223497">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1582647973475" />
     <state x="186" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.723@0.23.1280.723" timestamp="1581616457200" />
@@ -217,77 +153,32 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1582212609712" />
-<<<<<<< Updated upstream
     <state width="1493" height="207" key="GridCell.Tab.0.bottom" timestamp="1582819534106">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state width="1238" height="224" key="GridCell.Tab.0.bottom" timestamp="1582858196731">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state width="1493" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1581891658576" />
-<<<<<<< Updated upstream
     <state width="1238" height="173" key="GridCell.Tab.0.bottom/0.23.1280.724@0.23.1280.724" timestamp="1582647590402" />
     <state width="1493" height="207" key="GridCell.Tab.0.center" timestamp="1582819534106">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state width="1238" height="224" key="GridCell.Tab.0.bottom/0.23.1280.724@0.23.1280.724" timestamp="1582858196731" />
-    <state width="1238" height="224" key="GridCell.Tab.0.center" timestamp="1582858196731">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state width="1493" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
-<<<<<<< Updated upstream
     <state width="1238" height="173" key="GridCell.Tab.0.center/0.23.1280.724@0.23.1280.724" timestamp="1582647590401" />
     <state width="1493" height="207" key="GridCell.Tab.0.left" timestamp="1582819534106">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state width="1238" height="224" key="GridCell.Tab.0.center/0.23.1280.724@0.23.1280.724" timestamp="1582858196731" />
-    <state width="1238" height="224" key="GridCell.Tab.0.left" timestamp="1582858196730">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state width="1493" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
-<<<<<<< Updated upstream
     <state width="1238" height="173" key="GridCell.Tab.0.left/0.23.1280.724@0.23.1280.724" timestamp="1582647590400" />
     <state width="1493" height="207" key="GridCell.Tab.0.right" timestamp="1582819534106">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state width="1238" height="224" key="GridCell.Tab.0.left/0.23.1280.724@0.23.1280.724" timestamp="1582858196730" />
-    <state width="1238" height="224" key="GridCell.Tab.0.right" timestamp="1582858196731">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state width="1493" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
-<<<<<<< Updated upstream
     <state width="1238" height="173" key="GridCell.Tab.0.right/0.23.1280.724@0.23.1280.724" timestamp="1582647590401" />
     <state x="358" y="1" key="SettingsEditor" timestamp="1582647984853">
       <screen x="0" y="0" width="1536" height="824" />
-=======
-    <state width="1238" height="224" key="GridCell.Tab.0.right/0.23.1280.724@0.23.1280.724" timestamp="1582858196731" />
-    <state width="1238" height="224" key="GridCell.Tab.1.bottom" timestamp="1582858197617">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state width="1238" height="224" key="GridCell.Tab.1.bottom/0.23.1280.724@0.23.1280.724" timestamp="1582858197617" />
-    <state width="1238" height="224" key="GridCell.Tab.1.center" timestamp="1582858197615">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state width="1238" height="224" key="GridCell.Tab.1.center/0.23.1280.724@0.23.1280.724" timestamp="1582858197615" />
-    <state width="1238" height="224" key="GridCell.Tab.1.left" timestamp="1582858197612">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state width="1238" height="224" key="GridCell.Tab.1.left/0.23.1280.724@0.23.1280.724" timestamp="1582858197612" />
-    <state width="1238" height="224" key="GridCell.Tab.1.right" timestamp="1582858197616">
-      <screen x="0" y="23" width="1280" height="724" />
-    </state>
-    <state width="1238" height="224" key="GridCell.Tab.1.right/0.23.1280.724@0.23.1280.724" timestamp="1582858197616" />
-    <state x="298" y="24" key="SettingsEditor" timestamp="1582644336630">
-      <screen x="0" y="23" width="1280" height="724" />
->>>>>>> Stashed changes
     </state>
     <state x="358" y="1" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1582647984853" />
     <state x="298" y="24" key="SettingsEditor/0.23.1280.723@0.23.1280.723" timestamp="1581615986469" />
@@ -298,16 +189,13 @@
     <state x="379" y="213" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1582212543937" />
     <state x="316" y="210" key="com.intellij.ide.util.TipDialog/0.23.1280.723@0.23.1280.723" timestamp="1581878359456" />
     <state x="316" y="210" key="com.intellij.ide.util.TipDialog/0.23.1280.724@0.23.1280.724" timestamp="1581899573877" />
-    <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582861414930">
+    <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582645633676">
       <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1280.724@0.23.1280.724" timestamp="1582861414930" />
+    <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1280.724@0.23.1280.724" timestamp="1582645633676" />
     <state x="312" y="70" width="670" height="676" key="search.everywhere.popup" timestamp="1581775305871">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
     <state x="312" y="70" width="670" height="676" key="search.everywhere.popup/0.23.1280.723@0.23.1280.723" timestamp="1581775305871" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/teamproject$views.coverage" NAME="views Coverage Results" MODIFIED="1582858196366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ADTAA" />
   </component>
 </project>
