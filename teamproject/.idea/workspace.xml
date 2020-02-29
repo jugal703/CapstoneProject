@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ADTAA/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/ADTAA/schedulerNav.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
