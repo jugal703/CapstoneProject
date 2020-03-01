@@ -26,23 +26,8 @@ urlpatterns = [
     url(r'^instrSetup/$', views.setup_instructor, name='instrSetup'),
 
     # ex: /ADTAA/classSetup/
-    url(r'^classSetup/$', views.setup_classes, name='classSetup'),
+    url(r'^classSetup/$', views.setup_classes, name='classSetup')
 
-    # ex: /ADTAA/editSolutions/
-    url(r'^editSolutions/$', views.edit_solutions, name='editSolutions'),
 
-    # ex: /ADTAA/generateSolutions/
-    url(r'^generateSolutions/$', views.generate_solutions, name='generateSolutions'),
-
-    # ex: /ADTAA/schedulerNav/
-    url(r'^schedulerNav/$', views.scheduler_nav, name='schedulerNav'),
-
-    # ex: /ADTAA/adminNav/
-    url(r'^adminNav/$', views.admin_nav, name='adminNav'),
-
-    # ex: /ADTAA/rootNav/
-    url(r'^rootNav/$', views.root_nav, name='rootNav'),
-
-    url(r'^logout/$', views.logout_view, name='logout'),
 
 ]

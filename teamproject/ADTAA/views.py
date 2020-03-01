@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import logout
 
 import ADTAA.models as ADTAA_models
 
@@ -48,23 +47,10 @@ def scheduler_home_page(request):
 def setup_instructor(request):
     return render(request, 'ADTAA/instrSetup.html')
 
+
 def setup_classes(request):
     return render(request, 'ADTAA/classSetup.html')
 
-def edit_solutions(request):
-    return render(request, 'ADTAA/editSolutions.html')
-
-def generate_solutions(request):
-    return render(request, 'ADTAA/generateSolutions.html')
-
-def scheduler_nav(request):
-    return render(request, 'ADTAA/schedulerNav.html')
-
-def admin_nav(request):
-    return render(request, 'ADTAA/adminNav.html')
-
-def root_nav(request):
-    return render(request, 'ADTAA/rootNav.html')
 
 class Register(View):
 
@@ -95,7 +81,6 @@ class Register(View):
 
         return redirect('/ADTAA')
 
-<<<<<<< HEAD
 
 class PasswordPage(View):
     def get(self, request, *args, **kwargs):
@@ -139,9 +124,3 @@ class PasswordPage2(View):
         user.save()
     
         return redirect('/ADTAA')
-=======
-def logout_view(request):
-    logout(request)
-    return redirect('/ADTAA')
-
->>>>>>> 6b37dbfbb10b9c516b8d47e582c6f7903579b463
