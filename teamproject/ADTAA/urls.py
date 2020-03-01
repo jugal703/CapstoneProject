@@ -1,13 +1,17 @@
 from django.conf.urls import url
 from . import views
+from ADTAA.views import *
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', Index.as_view(), name='index'),
     # ex: /ADTAA/reg/
-    url(r'^reg/$', views.reg_page, name='reg'),
+    url(r'^reg/$', Register.as_view(), name='reg'),
 
     # ex: /ADTAA/password
     url(r'^password/$', views.password_page, name='password'),
+
+    # ex: /ADTAA/password2
+    url(r'^password2/$', views.password2_page, name='password2'),
 
     # ex: /ADTAA/rootHome/
     url(r'^rootHome/$', views.root_home_page, name='rootHome'),
@@ -22,7 +26,22 @@ urlpatterns = [
     url(r'^instrSetup/$', views.setup_instructor, name='instrSetup'),
 
     # ex: /ADTAA/classSetup/
-    url(r'^classSetup/$', views.setup_classes, name='classSetup')
+    url(r'^classSetup/$', views.setup_classes, name='classSetup'),
+
+    # ex: /ADTAA/editSolutions/
+    url(r'^editSolutions/$', views.edit_solutions, name='editSolutions'),
+
+    # ex: /ADTAA/generateSolutions/
+    url(r'^generateSolutions/$', views.generate_solutions, name='generateSolutions'),
+
+    # ex: /ADTAA/adminNav/
+    url(r'^adminNav/$', views.admin_nav, name='adminNav'),
+
+    # ex: /ADTAA/rootNav/
+    url(r'^rootNav/$', views.root_nav, name='rootNav'),
+
+    # ex: /ADTAA/schedulerNav/
+    url(r'^schedulerNav/$', views.scheduler_nav, name='schedulerNav'),
 
 
 
