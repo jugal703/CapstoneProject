@@ -22,12 +22,12 @@ class Index(View):
 
         if user.check_password(password):
             if user.user_type == "admin":
-                return redirect('/ADTAA/adminHome')
+                return render(request, 'ADTAA/adminHome.html')
             if user.user_type == "scheduler":
-                return redirect('/ADTAA/schedulerHome')
+                return render(request, 'ADTAA/schedulerHome.html')
         else:
             context = {
-                'error': 'No user exist, or wrong password'
+                'error': 'No user exist'
             }
             return render(request, 'ADTAA/index.html', context=context)
 
@@ -43,6 +43,12 @@ def admin_home_page(request):
 def scheduler_home_page(request):
     return render(request, 'ADTAA/schedulerHome.html')
 
+
+def password_page(request):
+    return render(request, 'ADTAA/password.html')
+
+def password2_page(request):
+    return render(request, 'ADTAA/password2.html')
 
 def setup_instructor(request):
     return render(request, 'ADTAA/instrSetup.html')
@@ -79,48 +85,4 @@ class Register(View):
         new_user.set_password(password)
         new_user.save()
 
-        return redirect('/ADTAA')
-
-
-class PasswordPage(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/password.html')
-
-    def post(self, request, *args, **kwargs):
-        email = request.POST.get('email', None)
-        sec_question1 = request.POST.get('secQuestion1', None)
-        sec_question2 = request.POST.get('secQuestion2', None)
-
-        if not email or not sec_question1 or not sec_question2:
-            context = {
-                'error': 'Must Pass In Every Verify.'
-            }
-            return render(request, 'ADTAA/password.html', context=context)
-
-        user = ADTAA_models.BaseUser.objects.all().filter(
-            username=email,
-            sec_question1=sec_question1,
-            sec_question2=sec_question2
-        ).count()
-        if user:
-            request.session['username'] = email
-            return redirect('/ADTAA/password2')
-        else:
-            context = {
-                'error': 'wrong answer'
-            }
-            return render(request, 'ADTAA/password.html', context=context)
-
-
-class PasswordPage2(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/password2.html')
-
-    def post(self, request, *args, **kwargs):
-        password = request.POST.get('password', None)
-        username = request.session.pop('username', '0')
-        user = ADTAA_models.BaseUser.objects.get(username=username)
-        user.set_password(password)
-        user.save()
-    
         return redirect('/ADTAA')
