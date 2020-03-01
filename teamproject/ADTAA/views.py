@@ -23,12 +23,12 @@ class Index(View):
 
         if user.check_password(password):
             if user.user_type == "admin":
-                return redirect('/ADTAA/adminHome')
+                return render(request, 'ADTAA/adminHome.html')
             if user.user_type == "scheduler":
-                return redirect('/ADTAA/schedulerHome')
+                return render(request, 'ADTAA/schedulerHome.html')
         else:
             context = {
-                'error': 'No user exist, or wrong password'
+                'error': 'No user exist'
             }
             return render(request, 'ADTAA/index.html', context=context)
 
@@ -44,6 +44,12 @@ def admin_home_page(request):
 def scheduler_home_page(request):
     return render(request, 'ADTAA/schedulerHome.html')
 
+
+def password_page(request):
+    return render(request, 'ADTAA/password.html')
+
+def password2_page(request):
+    return render(request, 'ADTAA/password2.html')
 
 def setup_instructor(request):
     return render(request, 'ADTAA/instrSetup.html')
@@ -94,6 +100,7 @@ class Register(View):
         new_user.save()
 
         return redirect('/ADTAA')
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -145,3 +152,5 @@ def logout_view(request):
     return redirect('/ADTAA')
 
 >>>>>>> 6b37dbfbb10b9c516b8d47e582c6f7903579b463
+=======
+>>>>>>> parent of 2355f59... 123

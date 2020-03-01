@@ -2,34 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e7a96d6-ef4f-4c53-abb8-62e8ca29d1d9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e7a96d6-ef4f-4c53-abb8-62e8ca29d1d9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/teamproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/teamproject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/ADTAA/password2.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ADTAA/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ADTAA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ADTAA/password.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ADTAA/password2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/password2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ADTAA/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ADTAA/schedulerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/schedulerHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ADTAA/schedulerNav.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ADTAA/schedulerNav.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
@@ -58,7 +42,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="D:/wordygame" />
+    <property name="last_opened_file_path" value="D:/teamproject" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -66,8 +50,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -88,7 +71,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="teamproject.settings" />
       </envs>
-      <option name="SDK_HOME" value="D:\teamproject\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="/usr/local/bin/python3.8" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -132,7 +115,6 @@
       <workItem from="1582212539905" duration="218000" />
       <workItem from="1582817417289" duration="2214000" />
       <workItem from="1583012988981" duration="837000" />
-      <workItem from="1583014154158" duration="7454000" />
     </task>
     <servers />
   </component>
@@ -140,10 +122,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583014184799">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="186" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583013003347">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1583014184799" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1582647973475" />
     <state x="186" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.723@0.23.1280.723" timestamp="1581616457200" />
     <state x="186" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.724@0.23.1280.724" timestamp="1583013003347" />
     <state x="707" y="23" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581641195051">
@@ -155,10 +137,6 @@
       <screen x="0" y="23" width="1280" height="723" />
     </state>
     <state x="285" y="151" key="#com.intellij.ide.fileTemplates.ui.ConfigureTemplatesDialog/0.23.1280.723@0.23.1280.723" timestamp="1581641195117" />
-    <state x="574" y="128" key="#com.intellij.ide.util.MemberChooser" timestamp="1583014894047">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="574" y="128" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1583014894047" />
     <state x="381" y="145" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582646423620">
       <screen x="0" y="23" width="1280" height="724" />
     </state>
@@ -170,62 +148,57 @@
     <state x="406" y="0" key="#teamproject/0.0.1536.824@0.0.1536.824" timestamp="1581900469064" />
     <state x="338" y="23" key="#teamproject/0.23.1280.723@0.23.1280.723" timestamp="1581615330225" />
     <state x="338" y="23" key="#teamproject/0.23.1280.724@0.23.1280.724" timestamp="1582644320560" />
-    <state x="516" y="304" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1583014905264">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="516" y="304" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1583014905264" />
     <state x="476" y="180" key="EnvironmentVariablesDialog" timestamp="1581615643594">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
     <state x="476" y="180" key="EnvironmentVariablesDialog/0.23.1280.723@0.23.1280.723" timestamp="1581615643594" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1583015108653">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1582212609712">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1583015108653" />
-    <state width="1493" height="207" key="GridCell.Tab.0.bottom" timestamp="1583021615350">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1582212609712" />
+    <state width="1238" height="173" key="GridCell.Tab.0.bottom" timestamp="1583013867980">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1583021615350" />
+    <state width="1493" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1581891658576" />
     <state width="1238" height="173" key="GridCell.Tab.0.bottom/0.23.1280.724@0.23.1280.724" timestamp="1583013867980" />
-    <state width="1493" height="207" key="GridCell.Tab.0.center" timestamp="1583021615349">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1238" height="173" key="GridCell.Tab.0.center" timestamp="1583013867979">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1583021615349" />
+    <state width="1493" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.center/0.23.1280.724@0.23.1280.724" timestamp="1583013867979" />
-    <state width="1493" height="207" key="GridCell.Tab.0.left" timestamp="1583021615349">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1238" height="173" key="GridCell.Tab.0.left" timestamp="1583013867978">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1583021615349" />
+    <state width="1493" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.left/0.23.1280.724@0.23.1280.724" timestamp="1583013867978" />
-    <state width="1493" height="207" key="GridCell.Tab.0.right" timestamp="1583021615350">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1238" height="173" key="GridCell.Tab.0.right" timestamp="1583013867979">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state width="1493" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1583021615350" />
+    <state width="1493" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582819534106" />
     <state width="1238" height="175" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1581891658575" />
     <state width="1238" height="173" key="GridCell.Tab.0.right/0.23.1280.724@0.23.1280.724" timestamp="1583013867979" />
-    <state x="358" y="1" key="SettingsEditor" timestamp="1583014824942">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="298" y="24" key="SettingsEditor" timestamp="1583013837631">
+      <screen x="0" y="23" width="1280" height="724" />
     </state>
-    <state x="358" y="1" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1583014824942" />
+    <state x="358" y="1" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1582647984853" />
     <state x="298" y="24" key="SettingsEditor/0.23.1280.723@0.23.1280.723" timestamp="1581615986469" />
     <state x="298" y="24" key="SettingsEditor/0.23.1280.724@0.23.1280.724" timestamp="1583013837631" />
-    <state x="379" y="213" key="com.intellij.ide.util.TipDialog" timestamp="1583014160010">
+    <state x="379" y="213" key="com.intellij.ide.util.TipDialog" timestamp="1582212543937">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="379" y="213" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1583014160010" />
+    <state x="379" y="213" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1582212543937" />
     <state x="316" y="210" key="com.intellij.ide.util.TipDialog/0.23.1280.723@0.23.1280.723" timestamp="1581878359456" />
     <state x="316" y="210" key="com.intellij.ide.util.TipDialog/0.23.1280.724@0.23.1280.724" timestamp="1581899573877" />
     <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582645633676">
       <screen x="0" y="23" width="1280" height="724" />
     </state>
     <state x="429" y="309" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1280.724@0.23.1280.724" timestamp="1582645633676" />
-    <state x="374" y="54" width="804" height="771" key="search.everywhere.popup" timestamp="1583014919707">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="312" y="70" width="670" height="676" key="search.everywhere.popup" timestamp="1581775305871">
+      <screen x="0" y="23" width="1280" height="723" />
     </state>
-    <state x="374" y="54" width="804" height="771" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1583014919707" />
     <state x="312" y="70" width="670" height="676" key="search.everywhere.popup/0.23.1280.723@0.23.1280.723" timestamp="1581775305871" />
   </component>
 </project>
