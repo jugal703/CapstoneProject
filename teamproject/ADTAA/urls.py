@@ -43,6 +43,7 @@ urlpatterns = [
     # ex: /ADTAA/schedulerNav/
     url(r'^schedulerNav/$', views.scheduler_nav, name='schedulerNav'),
 
+    url(r'^logout/$', views.logout, name='logout'),
 
 
 ]
