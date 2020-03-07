@@ -187,30 +187,34 @@ def generate_solutions(request):
 
 
 class Register(View):
+    form_class = ADTAA_forms.RegistrationForm
+
+    def __init__(self):
+        # Set registration_form for this instance to a new (and empty) instance of the
+        # appropriate Form class for this View
+        self.registration_form = self.form_class()
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/reg.html')
+        # At this point, self.registration_form is a new instance of our form class and
+        # we simply need to pass it to our template for rendering. We do that using a
+        # context variable.
+        context = {
+            'registration_form': self.registration_form,
+        }
+        return render(request, 'ADTAA/reg.html',context)
 
     def post(self, request, *args, **kwargs):
-        email = request.POST.get('email', None)
-        user_type = request.POST.get('userType', None)
-        password = request.POST.get('password', None)
-        sec_question1 = request.POST.get('question1', None)
-        sec_question2 = request.POST.get('question2', None)
-
-        if not email or not password or not user_type or not sec_question1 or not sec_question2:
+        # Set registration_form for this instance to a new instance of the appropriate
+        # Form class for this View based on the form that was POSTed to this function
+        self.registration_form = self.form_class(request.POST)
+        if not self.registration_form.is_valid():
             context = {
-                'error': 'Must Pass In Every Verify.'
+                'registration_form': self.registration_form,
             }
-            return render(request, 'ADTAA/reg.html', context=context)
+            return render(request, 'wordy_game_app/user_management/register.html', context)
 
-        new_user = ADTAA_models.BaseUser(
-            user_type=user_type,
-            username=email,
-            sec_question1=sec_question1,
-            sec_question2=sec_question2,
-        )
-        new_user.set_password(password)
-        new_user.save()
+        new_user = self.registration_form.save()
+        request.session['new_username'] = new_user.username
 
         return redirect('/ADTAA')
 
