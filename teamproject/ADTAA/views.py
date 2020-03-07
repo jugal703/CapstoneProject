@@ -26,9 +26,11 @@ class Index(View):
         if user.check_password(password):
             if user.user_type == "admin":
                 login(request, user)
+                request.session['username'] = email
                 return render(request, 'ADTAA/adminHome.html')
             if user.user_type == "scheduler":
                 login(request, user)
+                request.session['username'] = email
                 return render(request, 'ADTAA/schedulerHome.html')
         else:
             context = {
@@ -96,16 +98,19 @@ def admin_root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
     return actual_decorator
 
 
+@login_required
 @root_required
 def root_home_page(request):
     return render(request, 'ADTAA/rootHome.html')
 
 
+@login_required
 @admin_required
 def admin_home_page(request):
     return render(request, 'ADTAA/adminHome.html')
 
 
+@login_required
 @scheduler_required
 def scheduler_home_page(request):
     return render(request, 'ADTAA/schedulerHome.html')
@@ -122,13 +127,23 @@ def password2_page(request):
 @login_required
 @admin_root_required
 def setup_instructor(request):
-    return render(request, 'ADTAA/instrSetup.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user.user_type
+    }
+    return render(request, 'ADTAA/instrSetup.html', context)
 
 
 @login_required
 @admin_root_required
 def setup_classes(request):
-    return render(request, 'ADTAA/classSetup.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user.user_type
+    }
+    return render(request, 'ADTAA/classSetup.html', context)
 
 
 @login_required(login_url='/ADTAA/')
@@ -143,21 +158,32 @@ def root_nav(request):
 
 @login_required(login_url='/ADTAA/')
 def scheduler_nav(request):
-    return render(request, 'ADTAA/schedulerNav.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user
+    }
+    return render(request, 'ADTAA/schedulerNav.html', context)
 
 
 @login_required(login_url='/ADTAA/')
 def edit_solutions(request):
-    user = ADTAA_models.BaseUser
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
     context = {
-        'user': user
+        'user': user.user_type
     }
     return render(request, 'ADTAA/editSolutions.html', context)
 
 
 @login_required(login_url='/ADTAA/')
 def generate_solutions(request):
-    return render(request, 'ADTAA/generateSolutions.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user.user_type
+    }
+    return render(request, 'ADTAA/generateSolutions.html', context)
 
 
 class Register(View):

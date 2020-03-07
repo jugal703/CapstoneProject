@@ -1,8 +1,25 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Setup Instructor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
+<body style="height:1500px; overflow: hidden;">
+{% if user == "admin" %}
+    {% include 'ADTAA/adminNav.html' %}
+        {% elif user == "root" %}
+            {% include 'ADTAA/rootNav.html' %}
+{% endif %}
+</body>
 
-<div class="reg-page">
+<div class="reg-page" style="padding-top: 7%;">
     <div class="form">
         <form class="register-form">
             <h1>Add New Instructor</h1>
