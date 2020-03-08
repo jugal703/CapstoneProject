@@ -15,24 +15,18 @@
     {% csrf_token %}
 
 
-
-<div class="reg-page">
-    <div class="form">
-        <form class="register-form">
-            <h1>Registration Page</h1>
-            <select id="userType" name="userType">
-                <option value="" disabled selected>Select a User Type</option>
-                <option value="admin">Admin</option>
-                <option value="scheduler">Scheduler</option>
-            </select>
-            <input type="text" id="email" name="email" placeholder="Email"/>
-            <input type="password" id="password" name="password" placeholder="Password"/>
-            <input type="secQuestion1" id="question1" name="question1" placeholder="What primary school did you attend?"/>
-            <input type="secQuestion2" id="question2" name="question2" placeholder="What is street did you live on as a child?"/>
-            <button  type="submit">Register</button>
-            <p class="message">Already registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
-        </form>
+<body style="overflow: hidden;">
+    <div class="reg-page" style="padding-top: 3%;">
+         <div class="form">
+            <form class="register-form">
+                <h1>Registration Page</h1>
+                 {{ registration_form.as_table }}
+                <button  type="submit">Register</button>
+                <p class="message">Already registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
+                </br>
+                {% include 'ADTAA/footer.html' %}
+            </form>
+        </div>
     </div>
-</div>
-
+</body>
 </form>

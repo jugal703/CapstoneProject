@@ -14,11 +14,11 @@
 </head>
 <body style="height:1500px">
 
-{% if user == "scheduler" %}
+{% if user_type == "scheduler" %}
   {% include 'ADTAA/schedulerNav.html' %}
-    {% elif user == "admin" %}
+    {% elif user_type == "admin" %}
         {% include 'ADTAA/adminNav.html' %}
-        {% elif user == "root" %}
+        {% elif user_type == "root" %}
             {% include 'ADTAA/rootNav.html' %}
 {% endif %}
 

@@ -12,14 +12,14 @@
 </head>
 
 <body style="height:1500px; overflow: hidden;">
-{% if user == "admin" %}
+{% if user_type == "admin" %}
     {% include 'ADTAA/adminNav.html' %}
-        {% elif user == "root" %}
+        {% elif user_type == "root" %}
             {% include 'ADTAA/rootNav.html' %}
 {% endif %}
 </body>
 
-<div class="reg-page" style="padding-top: 7%;">
+<div class="reg-page" style="padding-top: 5%;">
     <div class="form">
         <form class="register-form">
             <h1>Add New Class</h1>
@@ -34,6 +34,8 @@
             <input type="classDiscipline" placeholder="Class Discipline" />
             <button>Add Class</button>
             <p class="message"><a href="http://127.0.0.1:8000/ADTAA/">Edit Class?</a>
+            </p>
+            {% include 'ADTAA/footer.html' %}
         </form>
     </div>
 </div>

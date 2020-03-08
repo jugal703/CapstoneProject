@@ -5,6 +5,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 import ADTAA.models as ADTAA_models
+import ADTAA.forms as ADTAA_forms
 
 
 class Index(View):
@@ -130,7 +131,7 @@ def setup_instructor(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     context = {
-        'user': user.user_type
+        'user_type': user.user_type
     }
     return render(request, 'ADTAA/instrSetup.html', context)
 
@@ -141,19 +142,29 @@ def setup_classes(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     context = {
-        'user': user.user_type
+        'user_type': user.user_type
     }
     return render(request, 'ADTAA/classSetup.html', context)
 
 
 @login_required(login_url='/ADTAA/')
 def admin_nav(request):
-    return render(request, 'ADTAA/adminNav.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user
+    }
+    return render(request, 'ADTAA/adminNav.html', context)
 
 
 @login_required(login_url='/ADTAA/')
 def root_nav(request):
-    return render(request, 'ADTAA/rootNav.html')
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user': user
+    }
+    return render(request, 'ADTAA/rootNav.html', context)
 
 
 @login_required(login_url='/ADTAA/')
@@ -171,7 +182,7 @@ def edit_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     context = {
-        'user': user.user_type
+        'user_type': user.user_type
     }
     return render(request, 'ADTAA/editSolutions.html', context)
 
@@ -181,7 +192,7 @@ def generate_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     context = {
-        'user': user.user_type
+        'user_type': user.user_type
     }
     return render(request, 'ADTAA/generateSolutions.html', context)
 
