@@ -27,19 +27,20 @@ class RegistrationForm(forms.Form):
         max_length=128,
         label=False,
         widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Password'}),
-        validators=[validators.NewUsernameValidator()],
+        validators=[validators.PasswordValidator()],
     )
     question1 = forms.CharField(
         max_length=128,
         label=False,
-        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'What primary school did you attend?'}),
-        validators=[validators.NewUsernameValidator()],
+        widget=forms.TextInput(
+            attrs={'class': 'form_text_input', 'placeholder': 'What primary school did you attend?'}),
     )
     question2 = forms.CharField(
         max_length=128,
         label=False,
-        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'What is street did you live on as a child?'}),
-        validators=[validators.NewUsernameValidator()],
+        widget=forms.TextInput(
+            attrs={'class': 'form_text_input', 'placeholder': 'What is street did you live on as a child?'}),
+
     )
 
     def save(self):
@@ -72,17 +73,34 @@ class RegistrationForm(forms.Form):
             raise_unexpected_error(e)
 
 
-class PasswordForm(forms.Form):
-    password = forms.CharField(
+class ChangePasswordForm(forms.Form):
+    email = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Email'}),
+    )
+    question1 = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form_text_input', 'placeholder': 'What primary school did you attend?'}),
+    )
+    question2 = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form_text_input', 'placeholder': 'What is street did you live on as a child?'}),
+
+    )
+    new_password = forms.CharField(
         max_length=255,
-        label='Password',
-        widget=forms.PasswordInput(attrs={'class': 'form_text_input'}),
-        validators=[validators.PasswordValidator()]
+        label=False,
+        widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'New Password'}),
     )
     verify_password = forms.CharField(
         max_length=255,
-        label='Verify',
-        widget=forms.PasswordInput(attrs={'class': 'form_text_input'})
+        label=False,
+        widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Verify Password'})
     )
 
     def clean(self):
@@ -96,7 +114,7 @@ class PasswordForm(forms.Form):
         """
         cleaned_data = super().clean()
 
-        password = cleaned_data.get('password', None)
+        password = cleaned_data.get('new_password', None)
         verify_password = cleaned_data.get('verify_password', None)
 
         if not password or not verify_password:
@@ -110,6 +128,35 @@ class PasswordForm(forms.Form):
                 'Passwords did not match',
                 code='invalid',
             )
+
+    def save(self):
+        """
+        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
+        have an unusable password
+        :return: On Success: A new WordyUser instance with an unusable password
+                 On Failure: Raises whichever error is caught
+        """
+        username = self.cleaned_data.get('email', None)
+        question1 = self.cleaned_data.get('question1', None)
+        question2 = self.cleaned_data.get('question2', None)
+        password = self.cleaned_data.get('new_password', None)
+
+        try:
+            user = base_models.BaseUser.objects.all().filter(
+                username=username,
+                sec_question1=question1,
+                sec_question2=question2
+            ).count()
+            if user:
+                user = base_models.BaseUser.objects.get(username=username)
+                user.set_password(password)
+                user.save()
+
+            return user
+        except Exception as e:
+            # We would never expect an error here because this function should only be called after checking to make
+            # sure that the form is valid.
+            raise_unexpected_error(e)
 
         '''
         Please notice at this point that I have access to my user's new password IN PLAIN TEXT. You can verify

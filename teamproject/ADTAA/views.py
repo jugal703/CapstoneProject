@@ -235,45 +235,85 @@ def logout(request):
     return render(request, 'ADTAA/logout.html')
 
 
-class PasswordPage(View):
+class ChangePassword(View):
+    form_class = ADTAA_forms.ChangePasswordForm
+
+    def __init__(self):
+        self.password_form = self.form_class()
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/password.html')
+        """
+        This function checks to see if a valid user_object can be created from a request and returns a template
+        rendered with a new PasswordForm if so
+        :param request: Django Request object- request.SESSION['new_username'] must be a valid new username
+        :param args: ~not used~
+        :param kwargs: ~not used~
+        :return: On Success: New PasswordForm rendered through a Django template
+                 On Failure: redirect to 'not_found'
+        """
+
+        context = {
+            'password_form': self.password_form,
+        }
+        return render(request, 'ADTAA/password.html', context)
 
     def post(self, request, *args, **kwargs):
-        email = request.POST.get('email', None)
-        sec_question1 = request.POST.get('secQuestion1', None)
-        sec_question2 = request.POST.get('secQuestion2', None)
+        """
+        This function checks to see if a valid user_object can be created from a request and then checks the POSTed
+        form for validity. If the form is valid, the user's password is changed, the user is logged in, and is finally
+        redirected to 'puzzles'
+        :param request: Django Request object- request.SESSION['new_username'] must be a valid new username
+        :param args: ~not used~
+        :param kwargs: ~not used~
+        :return: On Success: logged-in redirect to 'puzzles'
+                 On Failure: Error PasswordForm rendered through a Django template or redirect to 'not_found' if valid
+                 username not passed to function
+        """
 
-        if not email or not sec_question1 or not sec_question2:
+        self.password_form = self.form_class(request.POST)
+
+        if not self.password_form.is_valid():
             context = {
-                'error': 'Must Pass In Every Verification.'
+                'password_form': self.password_form,
             }
-            return render(request, 'ADTAA/password.html', context=context)
+            return render(request, 'ADTAA/password.html', context)
 
-        user = ADTAA_models.BaseUser.objects.all().filter(
-            username=email,
-            sec_question1=sec_question1,
-            sec_question2=sec_question2
-        ).count()
-        if user:
-            request.session['username'] = email
-            return redirect('/ADTAA/password2')
-        else:
-            context = {
-                'error': 'wrong answer'
-            }
-            return render(request, 'ADTAA/password.html', context=context)
-
-
-class PasswordPage2(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/password2.html')
-
-    def post(self, request, *args, **kwargs):
-        password = request.POST.get('password', None)
-        username = request.session.pop('username', '0')
-        user = ADTAA_models.BaseUser.objects.get(username=username)
-        user.set_password(password)
-        user.save()
-
+        self.password_form.save()
         return redirect('/ADTAA')
+
+    @staticmethod
+    def check_username(request):
+        """
+        This function checks that the session variable 'new_username' is set to a user that has an unusable password
+        :param request: Django Request Object
+        :return: On Success: the WordyUser instance where username=request.session['new_username']
+                 On Failure: None
+        """
+        username = request.session.get('new_username', None)
+
+        if not username:
+            # TODO: Implement Django messaging service and then redirect to a site_error page that can consume
+            # the messages passed to it. This will be much more useful than the simple not_found page that
+            # has already been implemented.
+            return None
+
+        try:
+            user_object = ADTAA_models.BaseUser.objects.get(
+                username=username,
+            )
+
+            # The if/else statement below could be reduced to the following one-liner:
+            # return user_object if not user_object.has_unusable_password() else None
+            if user_object.has_usable_password():
+                return None
+            else:
+                return user_object
+        except ADTAA_models.BaseUser.DoesNotExist:
+            # This exception isn't really an error. It just means that the username passed in does not exist in the
+            # database. We don't need to stop the server for this issue, though we would probably want to log the
+            # event in a production app.
+            return None
+        except Exception as e:
+            raise_unexpected_error(e)
+
+

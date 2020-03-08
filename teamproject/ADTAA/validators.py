@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import CommonPasswordValidator, \
     MinimumLengthValidator, \
     NumericPasswordValidator, \
     UserAttributeSimilarityValidator
-from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.validators import validate_email
 from django.forms import ValidationError
 
 from ADTAA.globals import raise_unexpected_error
@@ -13,24 +13,19 @@ import ADTAA.models as base_models
 
 
 class NewUsernameValidator(object):
-    default_validators = [
-        UnicodeUsernameValidator
-    ]
 
     def __call__(self, *args, **kwargs):
         self.validate(args[0])
 
     def validate(self, username):
         try:
-            for validator in self.default_validators:
-                if not re.match(validator.regex, username):
-                    raise ValidationError(
-                        'Username %(username)s is invalid.',
-                        code='invalid',
-                        params={'username': username},
-                    )
-        except ValidationError as e:
-            raise e
+            validate_email(username)
+        except ValidationError:
+            raise ValidationError(
+                'Username %(username)s is invalid.',
+                code='invalid',
+                params={'username': username},
+            )
         except Exception as e:
             raise_unexpected_error(e)
 

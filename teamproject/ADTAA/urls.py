@@ -8,10 +8,7 @@ urlpatterns = [
     url(r'^reg/$', Register.as_view(), name='reg'),
 
     # ex: /ADTAA/password
-    url(r'^password/$', PasswordPage.as_view(), name='password'),
-
-    # ex: /ADTAA/password2
-    url(r'^password2/$', PasswordPage2.as_view(), name='password2'),
+    url(r'^password/$', ChangePassword.as_view(), name='password'),
 
     # ex: /ADTAA/rootHome/
     url(r'^rootHome/$', views.root_home_page, name='rootHome'),
