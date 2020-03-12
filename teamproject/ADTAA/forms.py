@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ValidationError, Select
+from django.contrib import auth
 
 from ADTAA.globals import raise_unexpected_error
 
@@ -26,8 +27,9 @@ class RegistrationForm(forms.Form):
     password = forms.CharField(
         max_length=128,
         label=False,
-        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Password'}),
+        widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Password'}),
         validators=[validators.PasswordValidator()],
+
     )
     question1 = forms.CharField(
         max_length=128,
@@ -96,11 +98,12 @@ class ChangePasswordForm(forms.Form):
         max_length=255,
         label=False,
         widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'New Password'}),
+        validators=[validators.PasswordValidator()],
     )
     verify_password = forms.CharField(
         max_length=255,
         label=False,
-        widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Verify Password'})
+        widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Verify Password'}),
     )
 
     def clean(self):

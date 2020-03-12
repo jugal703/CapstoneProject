@@ -22,7 +22,27 @@
                 <h1>Registration Page</h1>
                  {{ registration_form.as_table }}
                 <button  type="submit">Register</button>
-                <p class="message">Already registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
+
+                <p class="message"> Create a Secure Password?
+	                <a class="button" href="#popup1">Password Rules</a>
+                </p>
+
+                <div id="popup1" class="overlay">
+	                <div class="popup">
+		                <h2>Secure Password Rules</h2>
+                            <a class="close" href="#">&times;</a>
+		                <div class="content">
+                            <ul style="text-align: left">
+                                <li> Minimum 8 Characters </li>
+                                <li> At Least One Number (0-9) </li>
+                                <li> At Least One Special Character (e.g., ! $ # %) </li>
+                            </ul>
+		                </div>
+	                </div>
+                </div>
+
+                <p class="message">Already Registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
+
                 </br>
                 {% include 'ADTAA/footer.html' %}
             </form>

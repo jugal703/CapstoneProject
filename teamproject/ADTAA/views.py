@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
+from ADTAA.globals import raise_unexpected_error
 
 
 class Index(View):
@@ -212,7 +213,7 @@ class Register(View):
         context = {
             'registration_form': self.registration_form,
         }
-        return render(request, 'ADTAA/reg.html',context)
+        return render(request, 'ADTAA/reg.html', context)
 
     def post(self, request, *args, **kwargs):
         # Set registration_form for this instance to a new instance of the appropriate
@@ -222,7 +223,7 @@ class Register(View):
             context = {
                 'registration_form': self.registration_form,
             }
-            return render(request, 'wordy_game_app/user_management/register.html', context)
+            return render(request, 'ADTAA/reg.html', context)
 
         new_user = self.registration_form.save()
         request.session['new_username'] = new_user.username

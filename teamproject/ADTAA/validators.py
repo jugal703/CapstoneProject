@@ -6,10 +6,29 @@ from django.contrib.auth.password_validation import CommonPasswordValidator, \
     UserAttributeSimilarityValidator
 from django.core.validators import validate_email
 from django.forms import ValidationError
+from django.utils.translation import ugettext as _
 
 from ADTAA.globals import raise_unexpected_error
 
 import ADTAA.models as base_models
+
+
+class CustomPasswordValidator:
+
+    def __init__(self, min_length=1):
+        self.min_length = min_length
+
+    def validate(self, password, user=None):
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if not any(char.isdigit() for char in password):
+            raise ValidationError(_('Password must contain at least %(min_length)d digit.') % {'min_length': self.min_length})
+        if not any(char.isalpha() for char in password):
+            raise ValidationError(_('Password must contain at least %(min_length)d letter.') % {'min_length': self.min_length})
+        if not any(char in special_characters for char in password):
+            raise ValidationError(_('Password must contain at least %(min_length)d special character.') % {'min_length': self.min_length})
+
+    def get_help_text(self):
+        return ""
 
 
 class NewUsernameValidator(object):
@@ -39,8 +58,7 @@ class NewUsernameValidator(object):
         username_in_use = base_models.BaseUser.objects.all().filter(username=username).count()
         if username_in_use:
             raise ValidationError(
-                'Username %(username)s is already in use. Please choose another. Or you can see this message again.'
-                'I\'m a computer. I don\'t care.',
+                'Username %(username)s is already in use. Please choose another.',
                 params={'username': username},
                 code='invalid',
             )
@@ -52,6 +70,7 @@ class NewUsernameValidator(object):
 
 class PasswordValidator(object):
     default_validators = [
+        CustomPasswordValidator,
         CommonPasswordValidator,
         MinimumLengthValidator,
         NumericPasswordValidator,
