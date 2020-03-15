@@ -80,6 +80,8 @@ class ChangePasswordForm(forms.Form):
         max_length=128,
         label=False,
         widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Email'}),
+        validators=[validators.PassWordUsernameValidator()],
+
     )
     question1 = forms.CharField(
         max_length=128,
@@ -144,6 +146,8 @@ class ChangePasswordForm(forms.Form):
         question2 = self.cleaned_data.get('question2', None)
         password = self.cleaned_data.get('new_password', None)
 
+
+
         try:
             user = base_models.BaseUser.objects.all().filter(
                 username=username,
@@ -156,6 +160,10 @@ class ChangePasswordForm(forms.Form):
                 user.save()
 
             return user
+
+
+
+
         except Exception as e:
             # We would never expect an error here because this function should only be called after checking to make
             # sure that the form is valid.

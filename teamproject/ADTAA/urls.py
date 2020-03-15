@@ -42,5 +42,8 @@ urlpatterns = [
 
     url(r'^logout/$', views.logout, name='logout'),
 
+    url(r'^regRequests/$', views.reg_requests, name='regRequests'),
+
+    url(r'^userPage/$', views.user_page, name='userPage'),
 
 ]

@@ -3,6 +3,9 @@ from django.contrib.auth import login, REDIRECT_FIELD_NAME
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
@@ -26,6 +29,10 @@ class Index(View):
         user = ADTAA_models.BaseUser.objects.get(username=email)
 
         if user.check_password(password):
+            if user.user_type == "root":
+                login(request, user)
+                request.session['username'] = email
+                return render(request, 'ADTAA/rootHome.html')
             if user.user_type == "admin":
                 login(request, user)
                 request.session['username'] = email
@@ -39,21 +46,6 @@ class Index(View):
                 'error': 'No user exist, or wrong password'
             }
             return render(request, 'ADTAA/index.html', context=context)
-
-
-def scheduler_check(user):
-    user = ADTAA_models.BaseUser
-    return user.user_type == 'scheduler'
-
-
-def admin_check(user):
-    user = ADTAA_models.BaseUser
-    return user.user_type == 'admin'
-
-
-def root_check(user):
-    user = ADTAA_models.BaseUser
-    return user.user_type == 'root'
 
 
 def scheduler_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/ADTAA/'):
@@ -316,5 +308,34 @@ class ChangePassword(View):
             return None
         except Exception as e:
             raise_unexpected_error(e)
+
+
+def reg_requests(request):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user_type': user.user_type
+    }
+
+    users = ADTAA_models.BaseUser.objects.all()
+
+    return render(request, 'ADTAA/regRequests.html', context, {'users': users})
+
+
+@login_required(login_url='/ADTAA/')
+def user_page(request):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    context = {
+        'user_type': user.user_type,
+    }
+    if request.method == 'POST':
+        subject = 'ADTAA USER EXPERIENCE'
+        body = request.POST['body']
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['tzolbayar58@gmail.com', ]
+        send_mail(subject, body, email_from, recipient_list, fail_silently=False)
+        messages.success(request, 'EMAIL HAS BEEN SENT SUCCESSFULLY.')
+    return render(request, 'ADTAA/userPage.html', context)
 
 

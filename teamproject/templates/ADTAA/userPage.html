@@ -1,0 +1,61 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ADTAA Home Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="height:1500px; overflow: hidden;">
+
+ {% if user_type == "scheduler" %}
+  {% include 'ADTAA/schedulerNav.html' %}
+    {% elif user_type == "admin" %}
+        {% include 'ADTAA/adminNav.html' %}
+        {% elif user_type == "root" %}
+            {% include 'ADTAA/rootNav.html' %}
+{% endif %}
+
+<h1 style="position: absolute; top: 8%;">Hi {{ user }}!</h1>
+
+<div style="margin-top: 10%;">
+
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+	   <li>
+           <h3>{{ message }}</h3>
+       </li>
+         {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p class="message" style="left: 1%;">Change Password? <a href="http://127.0.0.1:8000/ADTAA/password">Click Here</a></p>
+    <form method="post">
+        {% csrf_token %}
+        <p> Experiencing Problems? Write an email specifying your problem to us!</p>
+        <textarea style="white-space: normal; position: absolute; left: 1%; max-width: 300px; max-height: 150px;" id="email_body" type="text" name="body" rows="5" cols="50" placeholder="Start typing in here..."></textarea>
+        <button style="position: absolute; bottom: 57%; left: 25%;" type="submit">Send</button>
+    </form>
+</div>
+
+<div style="position: absolute; top: 50%;">
+    <h3>Contact Us!</h3>
+    <h5>Project Manager - TEMUULEN ZOLBAYAR | <a href="mailto:txzolbayar@ualr.edu">txzolbayar@ualr.edu</a></h5>
+    <h5>Lead Backend Developer - ZEZHANG LIN | <a href="mailto:zxlin@ualr.edu">zxlin@ualr.edu</a></h5>
+    <h5>Graphic Designer/Developer - JUGAL PATEL | <a href="mailto:jkpatel2@ualr.edu">jkpatel2@ualr.edu</a></h5>
+</div>
+
+
+
+</body>
+<div style="width: 100%; position: absolute; bottom: 0;">
+    {% include 'ADTAA/footer.html' %}
+</div>
+</html>

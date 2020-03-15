@@ -67,6 +67,22 @@
   transition: all 0.3 ease;
   cursor: pointer;
 }
+
+button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 5%;
+  border: 0;
+  padding: 7px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
 .form button:hover,.form button:active,.form button:focus {
   background: #43A047;
 }
