@@ -14,14 +14,15 @@
 </head>
 <body style="height:1500px">
 
-{% if user_type == "root" %}
-            {% include 'ADTAA/rootNav.html' %}
-{% endif %}
+{% include 'ADTAA/rootNav.html' %}
 
-<ul>
-{% for user in user_type %}
-    <li> {{ user }} </li>
-{% endfor %}
-</ul>
+
+<div style="margin-top: 10%;">
+    <ul>
+
+            <li> {{ user }}-{{ user.user_type }} </li>
+
+    </ul>
+</div>
 
 </body>

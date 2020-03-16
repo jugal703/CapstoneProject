@@ -1,6 +1,5 @@
 from django import forms
-from django.forms import ValidationError, Select
-from django.contrib import auth
+from django.forms import ValidationError
 
 from ADTAA.globals import raise_unexpected_error
 
@@ -63,7 +62,7 @@ class RegistrationForm(forms.Form):
                 username=username,
                 sec_question1=question1,
                 sec_question2=question2,
-                user_type=user_type
+                user_type=user_type,
             )
             new_user.set_password(password)
             new_user.save()

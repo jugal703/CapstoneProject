@@ -310,18 +310,6 @@ class ChangePassword(View):
             raise_unexpected_error(e)
 
 
-def reg_requests(request):
-    username = request.session.get('username', '0')
-    user = ADTAA_models.BaseUser.objects.get(username=username)
-    context = {
-        'user_type': user.user_type
-    }
-
-    users = ADTAA_models.BaseUser.objects.all()
-
-    return render(request, 'ADTAA/regRequests.html', context, {'users': users})
-
-
 @login_required(login_url='/ADTAA/')
 def user_page(request):
     username = request.session.get('username', '0')
@@ -339,3 +327,13 @@ def user_page(request):
     return render(request, 'ADTAA/userPage.html', context)
 
 
+class regRequests(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'ADTAA/regRequests.html')
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email', None)
+
+        users = ADTAA_models.BaseUser.objects.get(username=email)
+
+        return render(request, users, 'ADTAA/regRequests.html')
