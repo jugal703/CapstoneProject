@@ -23,9 +23,9 @@
             <ul>
                 <h2>User Registration Requests</h2>
                 {% for instances in users %}
-                <li> {{ instances }} - {{ instances.user_type }} </li>
-                    <button style="width: 10%; padding: 7px;" type="submit" value="Approve">Approve</button>
-                    <button style="width: 10%; padding: 7px;" type="submit" value="Deny">Deny</button>
+                <li > {{ instances }} - {{ instances.user_type }} </li>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" name="Approve">Approve</button>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" name="Deny">Deny</button>
                 {% endfor %}
             </ul>
     </form>

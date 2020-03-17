@@ -335,9 +335,14 @@ def user_page(request):
 
 def regRequests(request):
     queryset = ADTAA_models.BaseUser.objects.filter(isApproved="no")
+
     context = {
         'users': queryset
     }
+
     if request.method == 'POST':
-        ADTAA_models.BaseUser.objects.update(isApproved="yes")
-    return render(request, 'ADTAA/regRequests.html', context)
+        username = request.POST.get("Approve", "")
+        user = ADTAA_models.BaseUser.objects.get(username=username)
+        user.isApproved = "yes"
+        user.save()
+        return render(request, 'ADTAA/regRequests.html', context)
