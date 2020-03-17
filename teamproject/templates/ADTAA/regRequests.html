@@ -17,12 +17,18 @@
 {% include 'ADTAA/rootNav.html' %}
 
 
-<div style="margin-top: 10%;">
-    <ul>
-
-            <li> {{ user }}-{{ user.user_type }} </li>
-
-    </ul>
+<div style="margin-top: 6%;">
+    <form method="post">
+        {% csrf_token %}
+            <ul>
+                <h2>User Registration Requests</h2>
+                {% for instances in users %}
+                <li> {{ instances }} - {{ instances.user_type }} </li>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="Approve">Approve</button>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="Deny">Deny</button>
+                {% endfor %}
+            </ul>
+    </form>
 </div>
 
 </body>

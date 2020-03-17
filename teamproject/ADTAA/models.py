@@ -41,6 +41,7 @@ class BaseUser(AbstractUser):
     sec_question2 = models.CharField(max_length=128, blank=True, null=True)
     isApproved = models.CharField(max_length=128, choices=YES_NO, default=YES_NO[1][1])
 
+
 class Class(models.Model):
     course_number = models.CharField(max_length=128, blank=True, null=True)
     course_id = models.CharField(max_length=128, blank=True, null=True)

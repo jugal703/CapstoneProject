@@ -63,6 +63,7 @@ class RegistrationForm(forms.Form):
                 sec_question1=question1,
                 sec_question2=question2,
                 user_type=user_type,
+                isApproved="no",
             )
             new_user.set_password(password)
             new_user.save()

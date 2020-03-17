@@ -1,5 +1,5 @@
 from django.contrib import auth
-from django.contrib.auth import login, REDIRECT_FIELD_NAME
+from django.contrib.auth import login, REDIRECT_FIELD_NAME, get_user_model
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -29,21 +29,27 @@ class Index(View):
         user = ADTAA_models.BaseUser.objects.get(username=email)
 
         if user.check_password(password):
-            if user.user_type == "root":
-                login(request, user)
-                request.session['username'] = email
-                return render(request, 'ADTAA/rootHome.html')
-            if user.user_type == "admin":
-                login(request, user)
-                request.session['username'] = email
-                return render(request, 'ADTAA/adminHome.html')
-            if user.user_type == "scheduler":
-                login(request, user)
-                request.session['username'] = email
-                return render(request, 'ADTAA/schedulerHome.html')
+            if user.isApproved == "yes":
+                if user.user_type == "root":
+                    login(request, user)
+                    request.session['username'] = email
+                    return render(request, 'ADTAA/rootHome.html')
+                if user.user_type == "admin":
+                    login(request, user)
+                    request.session['username'] = email
+                    return render(request, 'ADTAA/adminHome.html')
+                if user.user_type == "scheduler":
+                    login(request, user)
+                    request.session['username'] = email
+                    return render(request, 'ADTAA/schedulerHome.html')
+            else:
+                context = {
+                    'error': 'User Has Not Been Approved Yet'
+                }
+                return render(request, 'ADTAA/index.html', context=context)
         else:
             context = {
-                'error': 'No user exist, or wrong password'
+                'error': 'Username Or Password Is Incorrect'
             }
             return render(request, 'ADTAA/index.html', context=context)
 
@@ -327,13 +333,11 @@ def user_page(request):
     return render(request, 'ADTAA/userPage.html', context)
 
 
-class regRequests(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'ADTAA/regRequests.html')
-
-    def post(self, request, *args, **kwargs):
-        email = request.POST.get('email', None)
-
-        users = ADTAA_models.BaseUser.objects.get(username=email)
-
-        return render(request, users, 'ADTAA/regRequests.html')
+def regRequests(request):
+    queryset = ADTAA_models.BaseUser.objects.filter(isApproved="no")
+    context = {
+        'users': queryset
+    }
+    if request.method == 'POST':
+        ADTAA_models.BaseUser.objects.update(isApproved="yes")
+    return render(request, 'ADTAA/regRequests.html', context)
