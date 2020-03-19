@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
@@ -22,11 +23,17 @@ class Index(View):
 
         if not email or not password:
             context = {
-                'error': 'Must Pass In Every Verify.'
+                'error': 'Must Pass In Every Verification.'
             }
             return render(request, 'ADTAA/index.html', context=context)
 
-        user = ADTAA_models.BaseUser.objects.get(username=email)
+        try:
+            user = ADTAA_models.BaseUser.objects.get(username=email)
+        except ADTAA_models.BaseUser.DoesNotExist:
+            context = {
+                'error': 'User Does Not Exist.'
+            }
+            return render(request, 'ADTAA/index.html', context=context)
 
         if user.check_password(password):
             if user.isApproved == "yes":
@@ -221,6 +228,7 @@ class Register(View):
             context = {
                 'registration_form': self.registration_form,
             }
+
             return render(request, 'ADTAA/reg.html', context)
 
         new_user = self.registration_form.save()
@@ -230,7 +238,8 @@ class Register(View):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = ['txzolbayar@ualr.edu', ]
         send_mail(subject, body, email_from, recipient_list, fail_silently=False)
-        messages.success(request, 'Thank you for register')
+        messages.success(request, 'Thank you for registering. You registration request is awaiting for approval.')
+
         return redirect('/ADTAA')
 
 

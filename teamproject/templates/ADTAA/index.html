@@ -14,9 +14,9 @@
 
     {% csrf_token %}
  {% if messages %}
-        <ul class="messages">
+        <div class="messages">
         {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <h2{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h2>
         {% endfor %}
     {% endif %}
 <body class="index">
