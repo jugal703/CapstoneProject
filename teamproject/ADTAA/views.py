@@ -225,6 +225,11 @@ class Register(View):
 
         new_user = self.registration_form.save()
         request.session['new_username'] = new_user.username
+        subject = 'ADTAA NEW USER REGISTRATION'
+        body = 'A new user has registered to be a user of ADTAA. Please follow the following link to login 127.0.0.1:8000/ADTAA/ - MindDebuggers'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['txzolbayar@ualr.edu', ]
+        send_mail(subject, body, email_from, recipient_list, fail_silently=False)
 
         return redirect('/ADTAA')
 
@@ -333,6 +338,8 @@ def user_page(request):
     return render(request, 'ADTAA/userPage.html', context)
 
 
+@login_required
+@root_required
 def regRequests(request):
     queryset = ADTAA_models.BaseUser.objects.filter(isApproved="no")
 
@@ -341,8 +348,20 @@ def regRequests(request):
     }
 
     if request.method == 'POST':
-        username = request.POST.get("Approve", "")
-        user = ADTAA_models.BaseUser.objects.get(username=username)
-        user.isApproved = "yes"
-        user.save()
-        return render(request, 'ADTAA/regRequests.html', context)
+        if 'Approve' in request.POST:
+            username = request.POST.get("Approve", "")
+            user = ADTAA_models.BaseUser.objects.get(username=username)
+            user.isApproved = "yes"
+            user.save()
+            subject = 'ADTAA USER LOGIN'
+            body = 'Congratulations! You have been approved to be a user of ADTAA! Please follow the following link to login 127.0.0.1:8000/ADTAA/ - MindDebuggers'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [username, ]
+            send_mail(subject, body, email_from, recipient_list, fail_silently=False)
+
+        elif 'Deny' in request.POST:
+            username = request.POST.get("Deny", "")
+            user = ADTAA_models.BaseUser.objects.get(username=username)
+            user.delete()
+
+    return render(request, 'ADTAA/regRequests.html', context)
