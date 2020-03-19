@@ -230,7 +230,7 @@ class Register(View):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = ['txzolbayar@ualr.edu', ]
         send_mail(subject, body, email_from, recipient_list, fail_silently=False)
-
+        messages.success(request, 'Thank you for register')
         return redirect('/ADTAA')
 
 
