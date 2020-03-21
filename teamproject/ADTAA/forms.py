@@ -237,10 +237,13 @@ class InstructorForm(forms.Form):
                 instructor_id=instructor_id,
                 last_name=last_name,
                 maximum_class_load=maximum_class_load,
-                disciplines_areas=discipline_areas,
+
             )
             new_instructor.save()
-
+            for i in discipline_areas:
+                discipline_area = base_models.DisciplinesAreas.objects.get(disciplines_area=i)
+                new_instructor.disciplines_area.add(discipline_area)
+            new_instructor.save()
             return new_instructor
         except Exception as e:
             # We would never expect an error here because this function should only be called after checking to make
@@ -295,6 +298,12 @@ class ClassForm(forms.Form):
                     disciplines_areas=discipline_areas,
                 )
             )
+            new_class.save()
+
+            for i in discipline_areas:
+                discipline_area = base_models.DisciplinesAreas.objects.get(disciplines_area=i)
+                new_class.disciplines_area.add(discipline_area)
+
             new_class.save()
 
             return new_class
