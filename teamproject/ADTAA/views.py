@@ -1,12 +1,12 @@
 from django.contrib import auth
-from django.contrib.auth import login, REDIRECT_FIELD_NAME, get_user_model
+from django.contrib.auth import login, REDIRECT_FIELD_NAME
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
+from django.utils.decorators import method_decorator
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
@@ -140,17 +140,6 @@ def setup_instructor(request):
         'user_type': user.user_type
     }
     return render(request, 'ADTAA/instrSetup.html', context)
-
-
-@login_required
-@admin_root_required
-def setup_classes(request):
-    username = request.session.get('username', '0')
-    user = ADTAA_models.BaseUser.objects.get(username=username)
-    context = {
-        'user_type': user.user_type
-    }
-    return render(request, 'ADTAA/classSetup.html', context)
 
 
 @login_required(login_url='/ADTAA/')
@@ -374,3 +363,63 @@ def regRequests(request):
             user.delete()
 
     return render(request, 'ADTAA/regRequests.html', context)
+
+
+@method_decorator(admin_root_required, name='get')
+class AddClass(View):
+    form_class = ADTAA_forms.ClassForm
+
+    def __init__(self):
+        self.class_form = self.form_class()
+
+    def get(self, request, *args, **kwargs):
+        username = self.request.session.get('username', '0')
+        user = ADTAA_models.BaseUser.objects.get(username=username)
+        context = {
+            'class_form': self.class_form,
+            'user_type': user.user_type,
+        }
+        return render(request, 'ADTAA/classSetup.html', context)
+
+    def post(self, request, *args, **kwargs):
+        self.class_form = self.form_class(request.POST)
+        if not self.class_form.is_valid():
+            context = {
+                'class_form': self.class_form,
+            }
+            return render(request, 'ADTAA/classSetup.html', context)
+
+        self.class_form.save()
+        messages.success(request, 'Class Has Been Successfully Added.')
+
+        return redirect('/ADTAA/classSetup')
+
+
+@method_decorator(admin_root_required, name='get')
+class AddInstructor(View):
+    form_instructor = ADTAA_forms.InstructorForm
+
+    def __init__(self):
+        self.instructor_form = self.form_instructor()
+
+    def get(self, request, *args, **kwargs):
+        username = self.request.session.get('username', '0')
+        user = ADTAA_models.BaseUser.objects.get(username=username)
+        context = {
+            'instructor_form': self.instructor_form,
+            'user_type': user.user_type,
+        }
+        return render(request, 'ADTAA/instrSetup.html', context)
+
+    def post(self, request, *args, **kwargs):
+        self.instructor_form = self.form_instructor(request.POST)
+        if not self.instructor_form.is_valid():
+            context = {
+                'class_form': self.instructor_form,
+            }
+            return render(request, 'ADTAA/instrSetup.html', context)
+
+        self.instructor_form.save()
+        messages.success(request, 'Instructor Has Been Successfully Added.')
+
+        return redirect('/ADTAA/instrSetup')

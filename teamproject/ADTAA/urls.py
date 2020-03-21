@@ -1,13 +1,14 @@
 from django.conf.urls import url
 from . import views
 from ADTAA.views import *
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     url(r'^$', Index.as_view(), name='index'),
     # ex: /ADTAA/reg/
     url(r'^reg/$', Register.as_view(), name='reg'),
 
-    # ex: /ADTAA/password
+    # ex: /ADTAA/password/
     url(r'^password/$', ChangePassword.as_view(), name='password'),
 
     # ex: /ADTAA/rootHome/
@@ -20,10 +21,10 @@ urlpatterns = [
     url(r'^schedulerHome/$', views.scheduler_home_page, name='schedulerHome'),
 
     # ex: /ADTAA/instrSetup/
-    url(r'^instrSetup/$', views.setup_instructor, name='instrSetup'),
+    url(r'^instrSetup/$', login_required(AddInstructor.as_view(), 'instrSetup')),
 
     # ex: /ADTAA/classSetup/
-    url(r'^classSetup/$', views.setup_classes, name='classSetup'),
+    url(r'^classSetup/$', login_required(AddClass.as_view(), 'classSetup')),
 
     # ex: /ADTAA/editSolutions/
     url(r'^editSolutions/$', views.edit_solutions, name='editSolutions'),

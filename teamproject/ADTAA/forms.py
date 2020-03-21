@@ -190,3 +190,113 @@ class ChangePasswordForm(forms.Form):
         to assume that any website you visit was developed by unethical black hats that want to steal everything you 
         own.
         '''
+
+
+class InstructorForm(forms.Form):
+    instructor_id = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Instructor ID'}),
+    )
+    last_name = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Instructor Last Name'}),
+    )
+    maximum_class_load = forms.ChoiceField(
+        label=False,
+        widget=forms.Select,
+        choices=[
+            ('', 'Select Maximum Class Load Per Semester'),
+            ('1', '1'),
+            ('2', '2'),
+            ('3', '3'),
+            ('4', '4'),
+        ]
+    )
+    discipline_areas = forms.MultipleChoiceField(
+        label=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=base_models.DISCIPLINES_AREAS
+    )
+
+    def save(self):
+        """
+        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
+        have an unusable password
+        :return: On Success: A new WordyUser instance with an unusable password
+                 On Failure: Raises whichever error is caught
+        """
+        instructor_id = self.cleaned_data.get('instructor_id', None)
+        last_name = self.cleaned_data.get('last_name', None)
+        maximum_class_load = self.cleaned_data.get('maximum_class_load', None)
+        discipline_areas = self.cleaned_data.get('discipline_areas', None)
+
+        try:
+            new_instructor = base_models.Instructor(
+                instructor_id=instructor_id,
+                last_name=last_name,
+                maximum_class_load=maximum_class_load,
+                disciplines_areas=discipline_areas,
+            )
+            new_instructor.save()
+
+            return new_instructor
+        except Exception as e:
+            # We would never expect an error here because this function should only be called after checking to make
+            # sure that the form is valid.
+            raise_unexpected_error(e)
+
+
+class ClassForm(forms.Form):
+    course_number = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Course Number'}),
+    )
+    course_title = forms.CharField(
+        max_length=128,
+        label=False,
+        widget=forms.TextInput(attrs={'class': 'form_text_input', 'placeholder': 'Course Title'}),
+    )
+    meeting_days = forms.ChoiceField(
+        label=False,
+        widget=forms.Select,
+        choices=[
+            ('', 'Select Meeting Days'),
+            ('MW', 'Monday and Wednesday'),
+            ('TR', 'Tuesday and Thursday'),
+        ]
+    )
+    discipline_areas = forms.MultipleChoiceField(
+        label=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices= base_models.DISCIPLINES_AREAS
+    )
+
+    def save(self):
+        """
+        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
+        have an unusable password
+        :return: On Success: A new WordyUser instance with an unusable password
+                 On Failure: Raises whichever error is caught
+        """
+        course_number = self.cleaned_data.get('course_number', None)
+        course_title = self.cleaned_data.get('course_title', None)
+        meeting_days = self.cleaned_data.get('meeting_days', None)
+        discipline_areas = self.cleaned_data.get('discipline_areas', None)
+
+        try:
+            new_class = base_models.Class(
+                course_number=course_number,
+                course_title=course_title,
+                meeting_days=meeting_days,
+                disciplines_areas=discipline_areas,
+            )
+            new_class.save()
+
+            return new_class
+        except Exception as e:
+            # We would never expect an error here because this function should only be called after checking to make
+            # sure that the form is valid.
+            raise_unexpected_error(e)

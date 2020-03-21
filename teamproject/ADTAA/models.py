@@ -44,12 +44,13 @@ class BaseUser(AbstractUser):
 
 class Class(models.Model):
     course_number = models.CharField(max_length=128, blank=True, null=True)
-    course_id = models.CharField(max_length=128, blank=True, null=True)
+    course_title = models.CharField(max_length=128, blank=True, null=True)
     meeting_days = models.CharField(max_length=128, choices=MEETING_DAYS, blank=True, null=True)
     disciplines_areas = models.CharField(max_length=128, choices=DISCIPLINES_AREAS, blank=True, null=True)
 
 
 class Instructor(models.Model):
+    instructor_id = models.CharField(max_length=128, blank=True, null=True)
     last_name = models.CharField(max_length=128, blank=True, null=True)
     maximum_class_load = models.CharField(max_length=128, choices=MAX_CLASSES, blank=True, null=True)
     disciplines_areas = models.CharField(max_length=128, choices=DISCIPLINES_AREAS, blank=True, null=True)
