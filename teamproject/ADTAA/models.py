@@ -2,19 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 DISCIPLINES_AREAS = (
-    ('1', 'Programming - C++'),
-    ('2', 'Programming - Python'),
-    ('3', 'Game Development'),
-    ('4', 'Data Structures and Algorithms'),
-    ('5', 'Computer Organization'),
-    ('6', 'Operating Systems'),
-    ('7', 'Programming Languages'),
-    ('8', 'Cybersecurity'),
-    ('9', 'Mobile Applications'),
-    ('10', 'Artificial Intelligence'),
-    ('11', 'Networks'),
-    ('12', 'Theory of Computation'),
-    ('13', 'Parallel and Distributed Systems'),
+    ('Programming - C++', 'Programming - C++'),
+    ('Programming - Python', 'Programming - Python'),
+    ('Game Development', 'Game Development'),
+    ('Data Structures and Algorithms', 'Data Structures and Algorithms'),
+    ('Computer Organization', 'Computer Organization'),
+    ('Operating Systems', 'Operating Systems'),
+    ('Programming Languages', 'Programming Languages'),
+    ('Cybersecurity', 'Cybersecurity'),
+    ('Mobile Applications', 'Mobile Applications'),
+    ('Artificial Intelligence', 'Artificial Intelligence'),
+    ('Networks', 'Networks'),
+    ('Theory of Computation', 'Theory of Computation'),
+    ('Parallel and Distributed Systems', 'Parallel and Distributed Systems'),
 )
 
 MEETING_DAYS = (
@@ -46,19 +46,24 @@ class Class(models.Model):
     course_number = models.CharField(max_length=128, blank=True, null=True)
     course_title = models.CharField(max_length=128, blank=True, null=True)
     meeting_days = models.CharField(max_length=128, choices=MEETING_DAYS, blank=True, null=True)
+    disciplines_area = models.ManyToManyField('DisciplinesAreas')
+
+    def __str__(self):
+        return self.course_number
 
 
 class Instructor(models.Model):
     instructor_id = models.CharField(max_length=128, blank=True, null=True)
     last_name = models.CharField(max_length=128, blank=True, null=True)
     maximum_class_load = models.CharField(max_length=128, choices=MAX_CLASSES, blank=True, null=True)
+    disciplines_area = models.ManyToManyField('DisciplinesAreas')
+
+    def __str__(self):
+        return self.instructor_id
 
 
-class ClassDisciplinesAreas(models.Model):
-    classes = models.ForeignKey(Class, on_delete=models.DO_NOTHING, )
-    disciplines_areas = models.CharField(max_length=128, choices=DISCIPLINES_AREAS, blank=True, null=True)
+class DisciplinesAreas(models.Model):
+    disciplines_area = models.CharField(max_length=128, blank=True, null=True)
 
-
-class InstructorDisciplinesAreas(models.Model):
-    instructor = models.ForeignKey(Instructor, on_delete=models.DO_NOTHING, )
-    disciplines_areas = models.CharField(max_length=128, choices=DISCIPLINES_AREAS, blank=True, null=True)
+    def __str__(self):
+        return self.disciplines_area
