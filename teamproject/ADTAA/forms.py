@@ -291,7 +291,9 @@ class ClassForm(forms.Form):
                 course_number=course_number,
                 course_title=course_title,
                 meeting_days=meeting_days,
-                disciplines_areas=discipline_areas,
+                discipline_areas=base_models.ClassDisciplinesAreas(
+                    disciplines_areas=discipline_areas,
+                )
             )
             new_class.save()
 

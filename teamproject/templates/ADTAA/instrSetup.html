@@ -39,7 +39,7 @@
             <h2{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h2>
         {% endfor %}
     {% endif %}
-    <div class="form">
+    <div class="form" style="max-width: 40%;">
         <form class="register-form">
             <h1>Add New Instructor</h1>
             {{ instructor_form.as_table }}
