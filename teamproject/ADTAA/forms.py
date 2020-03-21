@@ -216,7 +216,7 @@ class InstructorForm(forms.Form):
     )
     discipline_areas = forms.MultipleChoiceField(
         label=False,
-        widget=forms.SelectMultiple,
+        widget=forms.CheckboxSelectMultiple,
         choices=base_models.DISCIPLINES_AREAS
     )
 
@@ -270,7 +270,7 @@ class ClassForm(forms.Form):
     )
     discipline_areas = forms.MultipleChoiceField(
         label=False,
-        widget=forms.SelectMultiple,
+        widget=forms.CheckboxSelectMultiple,
         choices=base_models.DISCIPLINES_AREAS
     )
 
