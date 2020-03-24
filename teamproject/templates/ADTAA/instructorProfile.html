@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>ADTAA Home Page</title>
+  <title>Instructor Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -23,4 +23,22 @@
             {% include 'ADTAA/rootNav.html' %}
 {% endif %}
 
+<div style="margin-top: 6%;">
+    <form method="post">
+        {% csrf_token %}
+            <ul>
+                <h2>Instructor Profile</h2>
+                    <li><b> {{ instructor.instructor_id }} - {{ instructor.last_name }}
+                            </br>
+                        <p>Maximum Class Load Per Semester: {{ instructor.maximum_class_load }}</p>
+                        <p>Discipline Areas: {% for instance in instructor.disciplines_area.all %}
+                            {% if not forloop.first %}, {% endif %}
+                            {{ instance.disciplines_area }}
+                        {% endfor %}
+                        </p>
+                    </b></li>
+            </ul>
+    </form>
+</div>
 </body>
+

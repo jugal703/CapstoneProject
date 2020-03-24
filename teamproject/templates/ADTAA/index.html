@@ -1,6 +1,6 @@
 
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'favicon1.png' %}"/>
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
 
 <form method="POST" action="{{ request.path }}">
@@ -30,7 +30,9 @@
             <button>Login</button>
             <p class="message">Not Registered? <a href="http://127.0.0.1:8000/ADTAA/reg">Create an account</a></p>
               <p class="message">Forgot Password? <a href="http://127.0.0.1:8000/ADTAA/password">Change Password</a></p>
+            <div style="margin-top: 4%;">
             <img src="/static/logo.png" style="width: 60px; length: 60px;" alt="logo"/>
+            </div>
         </form>
     </div>
 </div>

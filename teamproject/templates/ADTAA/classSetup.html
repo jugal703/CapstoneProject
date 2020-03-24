@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'favicon1.png' %}"/>
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,7 @@
 
     {% csrf_token %}
 
-<div class="reg-page" style="padding-top: 6%;">
+<div class="reg-page" style="padding-top: 5%;">
      {% if messages %}
         <div class="messages">
         {% for message in messages %}
@@ -44,9 +44,9 @@
             <h1>Add New Class</h1>
             {{ class_form.as_table }}
             <button>Add Class</button>
-            <p class="message"><a href="http://127.0.0.1:8000/ADTAA/">Edit Class?</a>
-            </p>
+            <div style="margin-top: 4%;">
             {% include 'ADTAA/footer.html' %}
+            </div>
         </form>
     </div>
 </div>

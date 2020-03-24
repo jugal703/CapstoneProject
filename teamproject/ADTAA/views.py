@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
+from django.forms.models import model_to_dict, fields_for_model
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
@@ -40,15 +41,15 @@ class Index(View):
                 if user.user_type == "root":
                     login(request, user)
                     request.session['username'] = email
-                    return render(request, 'ADTAA/rootHome.html')
+                    return redirect('/ADTAA/rootHome', request)
                 if user.user_type == "admin":
                     login(request, user)
                     request.session['username'] = email
-                    return render(request, 'ADTAA/adminHome.html')
+                    return redirect('/ADTAA/adminHome', request)
                 if user.user_type == "scheduler":
                     login(request, user)
                     request.session['username'] = email
-                    return render(request, 'ADTAA/schedulerHome.html')
+                    return redirect('/ADTAA/schedulerHome', request)
             else:
                 context = {
                     'error': 'User Has Not Been Approved Yet'
@@ -108,19 +109,62 @@ def admin_root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
 @login_required
 @root_required
 def root_home_page(request):
-    return render(request, 'ADTAA/rootHome.html')
+    instructors_list = ADTAA_models.Instructor.objects.all
+    classes_list = ADTAA_models.Class.objects.all
+
+    context = {
+        'instructors': instructors_list,
+        'classes': classes_list,
+    }
+
+    if request.method == 'POST':
+        if 'instrDelete' in request.POST:
+            instructor_id = request.POST.get("instrDelete", "")
+            instructor = ADTAA_models.Instructor.objects.get(instructor_id=instructor_id)
+            instructor.delete()
+        elif 'classDelete' in request.POST:
+            course_number = request.POST.get("classDelete", "")
+            course = ADTAA_models.Class.objects.get(course_number=course_number)
+            course.delete()
+
+    return render(request, 'ADTAA/rootHome.html', context)
 
 
 @login_required
 @admin_required
 def admin_home_page(request):
-    return render(request, 'ADTAA/adminHome.html')
+    instructors_list = ADTAA_models.Instructor.objects.all
+    classes_list = ADTAA_models.Class.objects.all
+
+    context = {
+        'instructors': instructors_list,
+        'classes': classes_list,
+    }
+
+    if request.method == 'POST':
+        if 'instrDelete' in request.POST:
+            instructor_id = request.POST.get("instrDelete", "")
+            instructor = ADTAA_models.Instructor.objects.get(instructor_id=instructor_id)
+            instructor.delete()
+        elif 'classDelete' in request.POST:
+            course_number = request.POST.get("classDelete", "")
+            course = ADTAA_models.Class.objects.get(course_number=course_number)
+            course.delete()
+
+    return render(request, 'ADTAA/adminHome.html', context)
 
 
 @login_required
 @scheduler_required
 def scheduler_home_page(request):
-    return render(request, 'ADTAA/schedulerHome.html')
+    instructors_list = ADTAA_models.Instructor.objects.all
+    classes_list = ADTAA_models.Class.objects.all
+
+    context = {
+        'instructors': instructors_list,
+        'classes': classes_list,
+    }
+    return render(request, 'ADTAA/schedulerHome.html', context)
 
 
 def password_page(request):
@@ -423,3 +467,73 @@ class AddInstructor(View):
         messages.success(request, 'Instructor Has Been Successfully Added.')
 
         return redirect('/ADTAA/instrSetup')
+
+
+@login_required
+@admin_root_required
+def edit_instructor(request, pk):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    instructor = ADTAA_models.Instructor.objects.get(id=pk)
+
+    form = ADTAA_forms.NewInstructorForm(instance=instructor)
+
+    context = {
+        'user_type': user.user_type,
+        'form': form
+    }
+    if request.method == 'POST':
+        form = ADTAA_forms.NewInstructorForm(request.POST, instance=instructor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes Have Been Successfully Made.')
+
+    return render(request, 'ADTAA/editInstr.html', context)
+
+
+@login_required
+@admin_root_required
+def edit_class(request, pk):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    course = ADTAA_models.Class.objects.get(id=pk)
+
+    form = ADTAA_forms.NewClassForm(instance=course)
+
+    context = {
+        'user_type': user.user_type,
+        'form': form
+    }
+    if request.method == 'POST':
+        form = ADTAA_forms.NewClassForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes Have Been Successfully Made.')
+
+    return render(request, 'ADTAA/editClass.html', context)
+
+
+@login_required
+def instructor_profile(request, pk):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    instructor = ADTAA_models.Instructor.objects.get(id=pk)
+
+    context = {
+        'user_type': user.user_type,
+        'instructor': instructor,
+    }
+    return render(request, 'ADTAA/instructorProfile.html', context)
+
+
+@login_required
+def class_profile(request, pk):
+    username = request.session.get('username', '0')
+    user = ADTAA_models.BaseUser.objects.get(username=username)
+    course = ADTAA_models.Class.objects.get(id=pk)
+
+    context = {
+        'user_type': user.user_type,
+        'course': course,
+    }
+    return render(request, 'ADTAA/classProfile.html', context)

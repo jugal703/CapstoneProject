@@ -215,7 +215,7 @@ class InstructorForm(forms.Form):
         ]
     )
     discipline_areas = forms.MultipleChoiceField(
-        label=False,
+        label="Discipline Areas",
         widget=forms.CheckboxSelectMultiple,
         choices=base_models.DISCIPLINES_AREAS
     )
@@ -240,10 +240,12 @@ class InstructorForm(forms.Form):
 
             )
             new_instructor.save()
+
             for i in discipline_areas:
                 discipline_area = base_models.DisciplinesAreas.objects.get(disciplines_area=i)
                 new_instructor.disciplines_area.add(discipline_area)
             new_instructor.save()
+
             return new_instructor
         except Exception as e:
             # We would never expect an error here because this function should only be called after checking to make
@@ -272,7 +274,7 @@ class ClassForm(forms.Form):
         ]
     )
     discipline_areas = forms.MultipleChoiceField(
-        label=False,
+        label="Discipline Areas",
         widget=forms.CheckboxSelectMultiple,
         choices=base_models.DISCIPLINES_AREAS
     )
@@ -294,9 +296,6 @@ class ClassForm(forms.Form):
                 course_number=course_number,
                 course_title=course_title,
                 meeting_days=meeting_days,
-                discipline_areas=base_models.ClassDisciplinesAreas(
-                    disciplines_areas=discipline_areas,
-                )
             )
             new_class.save()
 
@@ -311,3 +310,23 @@ class ClassForm(forms.Form):
             # We would never expect an error here because this function should only be called after checking to make
             # sure that the form is valid.
             raise_unexpected_error(e)
+
+
+class NewInstructorForm(forms.ModelForm):
+    class Meta:
+        model = base_models.Instructor
+        fields = ['instructor_id', 'last_name', 'maximum_class_load', 'disciplines_area']
+        THE_CHOICES = base_models.DISCIPLINES_AREAS
+        widgets = {
+           'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
+        }
+
+
+class NewClassForm(forms.ModelForm):
+    class Meta:
+        model = base_models.Class
+        fields = ['course_number', 'course_title', 'meeting_days', 'disciplines_area']
+        THE_CHOICES = base_models.DISCIPLINES_AREAS
+        widgets = {
+            'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
+        }

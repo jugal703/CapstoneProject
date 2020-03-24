@@ -2,6 +2,7 @@ from django.conf.urls import url
 from . import views
 from ADTAA.views import *
 from django.contrib.auth.decorators import login_required
+from django.urls import path
 
 urlpatterns = [
     url(r'^$', Index.as_view(), name='index'),
@@ -47,4 +48,11 @@ urlpatterns = [
 
     url(r'^userPage/$', views.user_page, name='userPage'),
 
+    path('editInstr/<str:pk>/', views.edit_instructor, name='editInstr'),
+
+    path('editClass/<str:pk>/', views.edit_class, name='editClass'),
+
+    path('instructorProfile/<str:pk>/', views.instructor_profile, name='instructorProfile'),
+
+    path('classProfile/<str:pk>/', views.class_profile, name='classProfile')
 ]

@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'favicon1.png' %}"/>
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -19,23 +19,23 @@
 
     {% include 'ADTAA/schedulerNav.html' %}
 
-
-
-<div class="container" style="padding-top: 4%;">
-
-  <h3>Fixed Navbar</h3>
-  <div class="row">
-    <div class="col-md-4">
-      <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
-      <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
-
-    </div>
-    <div class="col-md-4">
-      <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
-<h1>Scroll this page to see the effect</h1>
-    </div>
-  </div>
-</div>
 </body>
 
-</html>
+<div class="reg-page" style="padding-top: 6%;">
+    <div class="form" style="max-width: 75%; margin-bottom: 2%;">
+        <form class="register-form">
+            <h1>Instructors</h1>
+             {% for instances in instructors %}
+                    <li><a href={% url 'instructorProfile' instances.id %} <b> {{ instances }} - {{ instances.last_name }} </b> </a></li>
+             {% endfor %}
+        </form>
+    </div>
+    <div class="form" style="max-width: 75%;">
+        <form class="register-form">
+            <h1>Classes</h1>
+             {% for instances in classes %}
+                    <li><a href={% url 'classProfile' instances.id %} <b> {{ instances }} - {{ instances.course_title }} </b> </a></li>
+            {% endfor %}
+        </form>
+    </div>
+</div>

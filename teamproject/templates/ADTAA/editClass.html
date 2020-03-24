@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Set Up Instructor</title>
+  <title>Edit Instructor</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -41,13 +41,12 @@
     {% endif %}
     <div class="form" style="max-width: 40%;">
         <form class="register-form">
-            <h1>Add New Instructor</h1>
-            {{ instructor_form.as_table }}
-            <button>Add Instructor</button>
+            <h1>Edit Class</h1>
+                      {{ form }}
+            <button>Save Changes</button>
             <div style="margin-top: 4%;">
             {% include 'ADTAA/footer.html' %}
             </div>
         </form>
     </div>
 </div>
-
