@@ -37,6 +37,13 @@
                         {% endfor %}
                         </p>
                     </b></li>
+              {% if user_type == 'root' or user_type == 'admin' %}
+               <button style="width: 5%; padding: 7px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="classDelete">Delete</button>
+
+                 <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
+                    width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
+                       href={% url 'editClass' course.id %}>Edit</a>
+                {% endif %}
             </ul>
     </form>
 </div>

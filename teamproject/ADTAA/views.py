@@ -523,6 +523,11 @@ def instructor_profile(request, pk):
         'user_type': user.user_type,
         'instructor': instructor,
     }
+    if request.method == 'POST':
+        if 'instrDelete' in request.POST:
+            instructor = ADTAA_models.Instructor.objects.get(instructor_id=instructor)
+            instructor.delete()
+            messages.success(request, 'Instructor Has Been Deleted.')
     return render(request, 'ADTAA/instructorProfile.html', context)
 
 
@@ -536,4 +541,9 @@ def class_profile(request, pk):
         'user_type': user.user_type,
         'course': course,
     }
+    if request.method == 'POST':
+        if 'classDelete' in request.POST:
+            course = ADTAA_models.Class.objects.get(course_number=course)
+            course.delete()
+            messages.success(request, 'Class Has Been Deleted.')
     return render(request, 'ADTAA/classProfile.html', context)
