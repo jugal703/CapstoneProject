@@ -54,5 +54,6 @@ urlpatterns = [
 
     path('instructorProfile/<str:pk>/', views.instructor_profile, name='instructorProfile'),
 
-    path('classProfile/<str:pk>/', views.class_profile, name='classProfile')
+    path('classProfile/<str:pk>/', views.class_profile, name='classProfile'),
+
 ]

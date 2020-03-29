@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.forms.models import model_to_dict, fields_for_model
+
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
@@ -54,6 +54,11 @@ class Index(View):
                 context = {
                     'error': 'User Has Not Been Approved Yet'
                 }
+                subject = 'ADTAA UNAPPROVED USER LOGIN'
+                body = email + ' is attempting to login but has not been approved yet. Please approve or deny this user ASAP. - MindDebuggers'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = ['txzolbayar@ualr.edu', ]
+                send_mail(subject, body, email_from, recipient_list, fail_silently=False)
                 return render(request, 'ADTAA/index.html', context=context)
         else:
             context = {
@@ -171,10 +176,6 @@ def password_page(request):
     return render(request, 'ADTAA/password.html')
 
 
-def password2_page(request):
-    return render(request, 'ADTAA/password2.html')
-
-
 @login_required
 @admin_root_required
 def setup_instructor(request):
@@ -230,10 +231,16 @@ def edit_solutions(request):
 def generate_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
+
     context = {
-        'user_type': user.user_type
+        'user_type': user.user_type,
     }
     return render(request, 'ADTAA/generateSolutions.html', context)
+
+
+@login_required(login_url='/ADTAA/')
+def solution(request):
+    return render(request, 'ADTAA/solution.html')
 
 
 class Register(View):
@@ -267,11 +274,11 @@ class Register(View):
         new_user = self.registration_form.save()
         request.session['new_username'] = new_user.username
         subject = 'ADTAA NEW USER REGISTRATION'
-        body = 'A new user has registered to be a user of ADTAA. Please follow the following link to login 127.0.0.1:8000/ADTAA/ - MindDebuggers'
+        body = 'A new user has registered to be a user of ADTAA. - MindDebuggers'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = ['txzolbayar@ualr.edu', ]
         send_mail(subject, body, email_from, recipient_list, fail_silently=False)
-        messages.success(request, 'Thank you for registering. You registration request is awaiting for approval.')
+        messages.success(request, 'Thank you for registering. You registration request is awaiting approval.')
 
         return redirect('/ADTAA')
 
@@ -396,7 +403,7 @@ def regRequests(request):
             user.isApproved = "yes"
             user.save()
             subject = 'ADTAA USER LOGIN'
-            body = 'Congratulations! You have been approved to be a user of ADTAA! Please follow the following link to login 127.0.0.1:8000/ADTAA/ - MindDebuggers'
+            body = 'Congratulations! You have been approved to be a user of ADTAA! Please login with the credentials you have set. - MindDebuggers'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [username, ]
             send_mail(subject, body, email_from, recipient_list, fail_silently=False)
@@ -405,6 +412,11 @@ def regRequests(request):
             username = request.POST.get("Deny", "")
             user = ADTAA_models.BaseUser.objects.get(username=username)
             user.delete()
+            subject = 'ADTAA USER LOGIN'
+            body = 'We thank you for your registration to be a user of ADTAA. However, you have been denied the ability to be a user of ADTAA. - MindDebuggers'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [username, ]
+            send_mail(subject, body, email_from, recipient_list, fail_silently=False)
 
     return render(request, 'ADTAA/regRequests.html', context)
 
@@ -547,3 +559,4 @@ def class_profile(request, pk):
             course.delete()
             messages.success(request, 'Class Has Been Deleted.')
     return render(request, 'ADTAA/classProfile.html', context)
+
