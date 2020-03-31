@@ -1,10 +1,14 @@
 from django import forms
+from django.contrib.admin.widgets import AdminTimeWidget
 from django.forms import ValidationError
-
+import datetime as dt
 from ADTAA.globals import raise_unexpected_error
-
+from django.contrib.admin import widgets
 import ADTAA.models as base_models
 import ADTAA.validators as validators
+
+hours = [(None, 'Hour')] + [('{:02d}'.format(x), '{:02d}'.format(x)) for x in range(0, 24)]
+mins = [(None, 'Minute')] + [('{:02d}'.format(i), '{:02d}'.format(i)) for i in range(60)]
 
 
 class RegistrationForm(forms.Form):
@@ -146,8 +150,6 @@ class ChangePasswordForm(forms.Form):
         question2 = self.cleaned_data.get('question2', None)
         password = self.cleaned_data.get('new_password', None)
 
-
-
         try:
             user = base_models.BaseUser.objects.all().filter(
                 username=username,
@@ -273,6 +275,17 @@ class ClassForm(forms.Form):
             ('TR', 'Tuesday and Thursday'),
         ]
     )
+    hour = forms.ChoiceField(
+        label="Start Hour and Minute (75 mines class)",
+        widget=forms.Select,
+        choices=hours
+    )
+
+    min = forms.ChoiceField(
+        label=False,
+        widget=forms.Select,
+        choices=mins
+    )
     discipline_areas = forms.MultipleChoiceField(
         label="Discipline Areas",
         widget=forms.CheckboxSelectMultiple,
@@ -289,6 +302,8 @@ class ClassForm(forms.Form):
         course_number = self.cleaned_data.get('course_number', None)
         course_title = self.cleaned_data.get('course_title', None)
         meeting_days = self.cleaned_data.get('meeting_days', None)
+        hour = self.cleaned_data.get('hour', None)
+        min = self.cleaned_data.get('min', None)
         discipline_areas = self.cleaned_data.get('discipline_areas', None)
 
         try:
@@ -303,6 +318,8 @@ class ClassForm(forms.Form):
                 discipline_area = base_models.DisciplinesAreas.objects.get(disciplines_area=i)
                 new_class.disciplines_area.add(discipline_area)
 
+            new_class.start_time = dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S').time()
+            new_class.end_time = (dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S') + dt.timedelta(minutes=75)).time()
             new_class.save()
 
             return new_class
@@ -318,7 +335,7 @@ class NewInstructorForm(forms.ModelForm):
         fields = ['instructor_id', 'last_name', 'maximum_class_load', 'disciplines_area']
         THE_CHOICES = base_models.DISCIPLINES_AREAS
         widgets = {
-           'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
+            'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
         }
 
 

@@ -46,6 +46,8 @@ class Class(models.Model):
     course_number = models.CharField(max_length=128, blank=True, null=True)
     course_title = models.CharField(max_length=128, blank=True, null=True)
     meeting_days = models.CharField(max_length=128, choices=MEETING_DAYS, blank=True, null=True)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False, null=True)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False, null=True)
     disciplines_area = models.ManyToManyField('DisciplinesAreas')
 
     def __str__(self):
