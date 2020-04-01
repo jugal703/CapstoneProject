@@ -1,9 +1,7 @@
 from django import forms
-from django.contrib.admin.widgets import AdminTimeWidget
 from django.forms import ValidationError
 import datetime as dt
 from ADTAA.globals import raise_unexpected_error
-from django.contrib.admin import widgets
 import ADTAA.models as base_models
 import ADTAA.validators as validators
 
@@ -276,7 +274,7 @@ class ClassForm(forms.Form):
         ]
     )
     hour = forms.ChoiceField(
-        label="Start Hour and Minute (75 mines class)",
+        label="Start Hour and Minute (75 min class)",
         widget=forms.Select,
         choices=hours
     )
@@ -342,8 +340,12 @@ class NewInstructorForm(forms.ModelForm):
 class NewClassForm(forms.ModelForm):
     class Meta:
         model = base_models.Class
-        fields = ['course_number', 'course_title', 'meeting_days', 'disciplines_area']
+        fields = ['course_number', 'course_title', 'meeting_days', 'start_time', 'end_time', 'disciplines_area']
         THE_CHOICES = base_models.DISCIPLINES_AREAS
         widgets = {
-            'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
+            'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES),
+        }
+        labels = {
+            'start_time': "Start Time (hh:mm:ss 24-hour clock)",
+            'end_time': "End Time (75 min after start time)"
         }

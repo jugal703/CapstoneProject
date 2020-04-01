@@ -31,6 +31,8 @@
                     <li><b> {{ course.course_number }} - {{ course.course_title }}
                             </br>
                         <p>Meeting Days: {{ course.meeting_days }}</p>
+                        <p>Start Time: {{ course.start_time }}</p>
+                        <p>End Time: {{ course.end_time }}</p>
                         <p>Discipline Areas: {% for instance in course.disciplines_area.all %}
                             {% if not forloop.first %}, {% endif %}
                             {{ instance.disciplines_area }}
