@@ -8,7 +8,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 
-
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
 from ADTAA.globals import raise_unexpected_error
@@ -227,15 +226,90 @@ def edit_solutions(request):
     return render(request, 'ADTAA/editSolutions.html', context)
 
 
-@login_required(login_url='/ADTAA/')
-def generate_solutions(request):
-    username = request.session.get('username', '0')
-    user = ADTAA_models.BaseUser.objects.get(username=username)
+@method_decorator(admin_root_required, name='get')
+class GenerateSolutions(View):
+    def get(self, request, *args, **kwargs):
+        username = request.session.get('username', '0')
+        user = ADTAA_models.BaseUser.objects.get(username=username)
 
-    context = {
-        'user_type': user.user_type,
-    }
-    return render(request, 'ADTAA/generateSolutions.html', context)
+        context = {
+            'user_type': user.user_type,
+        }
+        return render(request, 'ADTAA/generateSolutions.html', context)
+
+    def post(self, request, *args, **kwargs):
+        instructors_list = ADTAA_models.Instructor.objects.all()
+        classes_list = ADTAA_models.Class.objects.all()
+
+        classes = {}
+        not_assigned_classes = []
+        instructors_load = {}
+        i_list = []
+
+        for i in instructors_list:
+            i_list.append(i.instructor_id)
+            instructors_load[i.instructor_id] = int(i.maximum_class_load)
+
+        biggest_disciplines_area_count = 0
+        for i in classes_list:
+            classes[i.course_number] = [i.disciplines_area.count()]
+            for j in instructors_list:
+                if any(x in list(i.disciplines_area.all()) for x in list(j.disciplines_area.all())):
+                    if j.disciplines_area.count() > biggest_disciplines_area_count:
+                        classes[i.course_number].insert(1, j.instructor_id)
+                        biggest_disciplines_area_count = j.disciplines_area.count()
+                    else:
+                        classes[i.course_number].append(j.instructor_id)
+                else:
+                    if j == instructors_list.last() and len(classes[i.course_number]) == 1:
+                        not_assigned_classes.append(i.course_number)
+                        del classes[i.course_number]
+
+        one_instructor_classes = {k: v for k, v in classes.items() if len(v) == 2}
+        classes = {k: v for k, v in classes.items() if len(v) > 2}
+
+        # sort classes by disciplines_area numbers
+        classes = {k: v for k, v in sorted(classes.items(), key=lambda item: item[1], reverse=True)}
+        classes = list(classes.items())
+        for c in classes:
+            c[1].pop(0)
+        c_list = classes.copy()
+        print("before solution:", classes)
+        print("one_instructor_classes:", one_instructor_classes)
+        print("not_assigned_classes", not_assigned_classes)
+
+        temp_solution = []
+
+        for i, elem in enumerate(classes):
+            if len(instructors_load) == 0:
+                break
+            for instructor in classes[i][1]:
+                if len(instructors_load) == 0:
+                    break
+                if instructor not in instructors_load:
+                    continue
+                else:
+                    instructors_load[instructor] = instructors_load[instructor] - 1
+                    temp_solution.append([classes[i][0], instructor])
+                    if instructors_load[instructor] == 0:
+                        del instructors_load[instructor]
+                c_list.pop(0)
+                break
+            if len(c_list) == 0:
+                break
+
+        print(i_list)
+        print(temp_solution)
+
+        for i in temp_solution:
+            i[0] = "Course: " + i[0]+" - "
+            i[1] = "Instructor: " + i[1]
+
+        context = {
+            'solution': temp_solution,
+        }
+
+        return render(request, 'ADTAA/generateSolutions.html', context)
 
 
 @login_required(login_url='/ADTAA/')
@@ -559,4 +633,3 @@ def class_profile(request, pk):
             course.delete()
             messages.success(request, 'Class Has Been Deleted.')
     return render(request, 'ADTAA/classProfile.html', context)
-
