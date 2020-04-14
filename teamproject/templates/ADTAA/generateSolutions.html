@@ -27,18 +27,42 @@
         {% csrf_token %}
             <h1>Solution</h1>
 
+                 <td>{{ save}}</td>
+
              {% for instances in solution %}
-               <li>
-                   {% for item in instances %}
-                     <b> {{ item}} </b>
-                 {% endfor %}
+                 <li>
+                 <tr>
+                     <td>{{ instances.Course_number }} | </td>
+                    <td>{{ instances.Course_title }} | </td>
+                     <td>{{ instances.Start_time }} | </td>
+                     <td>{{ instances.End_time }} | </td>
+                     <td>{{ instances.Instructor }} | </td>
+                     <td>{{ instances.Instructor_id }} | </td>
+                  </tr>
                  </li>
              {% endfor %}
+<<<<<<< HEAD
 
         <button>Solution</button>
         </br>
         </br>
         <button type="submit" name="PDF">Download PDF</button>
+=======
+        <h1>No Assigned Classes</h1>
+            {% for class in no_assigned_class %}
+                 <li>
+                <td>{{ class.Course_number }}</td>
+                    <td>{{ class.Course_title }}</td>
+                     <td>{{ class.Start_time }}</td>
+                     <td>{{ class.End_time }}</td>
+
+                 </li>
+             {% endfor %}
+
+        <button name="create_solution">Solution</button>
+        <button name="save">Save</button>
+        <button name="reset">Reset</button>
+>>>>>>> 6104ffb1f461be251dd5506cb95a1958e8626702
         </form>
     </div>
 </body>
