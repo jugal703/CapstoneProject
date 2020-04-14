@@ -43,6 +43,7 @@ class BaseUser(AbstractUser):
 
 
 class Class(models.Model):
+    assigned_instructor = models.CharField(max_length=128, default='No Instructor')
     course_number = models.CharField(max_length=128, blank=True, null=True)
     course_title = models.CharField(max_length=128, blank=True, null=True)
     meeting_days = models.CharField(max_length=128, choices=MEETING_DAYS, blank=True, null=True)
