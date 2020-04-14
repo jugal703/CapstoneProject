@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^editSolutions/$', views.edit_solutions, name='editSolutions'),
 
     # ex: /ADTAA/generateSolutions/
-    url(r'^generateSolutions/$', login_required(GenerateSolutions.as_view(), 'generateSolutions')),
+    url(r'^generateSolutions/$', GenerateSolutions.as_view(), name='generateSolutions'),
 
     # ex: /ADTAA/adminNav/
     url(r'^adminNav/$', views.admin_nav, name='adminNav'),

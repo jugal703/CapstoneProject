@@ -7,11 +7,28 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
 from ADTAA.globals import raise_unexpected_error
 
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='schedule/pdf')
+    return None
 
 class Index(View):
     def get(self, request, *args, **kwargs):
@@ -171,10 +188,6 @@ def scheduler_home_page(request):
     return render(request, 'ADTAA/schedulerHome.html', context)
 
 
-def password_page(request):
-    return render(request, 'ADTAA/password.html')
-
-
 @login_required
 @admin_root_required
 def setup_instructor(request):
@@ -220,13 +233,15 @@ def scheduler_nav(request):
 def edit_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
+    form = ADTAA_forms.SolutionForm
     context = {
-        'user_type': user.user_type
+        'user_type': user.user_type,
+        'form': form
     }
     return render(request, 'ADTAA/editSolutions.html', context)
 
 
-@method_decorator(admin_root_required, name='get')
+@method_decorator(login_required(login_url='/ADTAA/'), name='get')
 class GenerateSolutions(View):
     def get(self, request, *args, **kwargs):
         username = request.session.get('username', '0')
@@ -309,7 +324,12 @@ class GenerateSolutions(View):
             'solution': temp_solution,
         }
 
+        if request.method == 'POST':
+            if 'PDF' in request.POST:
+                return render_to_pdf('ADTAA/generateSolutions.html', context)
+
         return render(request, 'ADTAA/generateSolutions.html', context)
+
 
 
 @login_required(login_url='/ADTAA/')

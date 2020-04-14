@@ -327,6 +327,19 @@ class ClassForm(forms.Form):
             raise_unexpected_error(e)
 
 
+class SolutionForm(forms.Form):
+    instructor_id = forms.ChoiceField(
+        label=False,
+        widget=forms.Select,
+        choices=base_models.Instructor.objects.all().values_list('instructor_id')
+    )
+    course_number = forms.ChoiceField(
+        label=False,
+        widget=forms.Select,
+        choices=base_models.Class.objects.all().values_list('course_number')
+    )
+
+
 class NewInstructorForm(forms.ModelForm):
     class Meta:
         model = base_models.Instructor
