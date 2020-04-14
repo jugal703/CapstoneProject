@@ -241,7 +241,49 @@ def edit_solutions(request):
     return render(request, 'ADTAA/editSolutions.html', context)
 
 
-@method_decorator(login_required(login_url='/ADTAA/'), name='get')
+def make_solution(classes, instructors_load, rest_classes, curr_solution):
+    for i, elem in enumerate(classes):
+        if len(instructors_load) == 0:
+            break
+        if len(rest_classes) == 0:
+            break
+        curr_class = ADTAA_models.Class.objects.get(course_number=classes[i][0])
+        class_start_time = curr_class.start_time
+        class_end_time = curr_class.end_time
+        class_day = curr_class.meeting_days
+
+        for instructor in classes[i][1]:
+            if instructor not in instructors_load:
+                continue
+            else:
+                curr_instructor_classes = curr_solution[instructor]
+                time_conflict = False
+                for c in curr_instructor_classes:
+                    instructor_class = ADTAA_models.Class.objects.get(course_number=c)
+                    c_start_time = instructor_class.start_time
+                    c_end_time = instructor_class.end_time
+                    c_day = instructor_class.meeting_days
+                    if class_day == c_day and (class_end_time > c_start_time or class_start_time < c_end_time):
+                        time_conflict = True
+                        break
+                if time_conflict:
+                    continue
+                else:
+                    instructors_load[instructor] = instructors_load[instructor] - 1
+                    curr_solution[instructor].append(classes[i][0])
+
+                    del rest_classes[classes[i][0]]
+                    if instructors_load[instructor] == 0:
+                        del instructors_load[instructor]
+                        if len(instructors_load) == 0:
+                            break
+                    if len(rest_classes) == 0:
+                        break
+                    break
+    return len(rest_classes)
+
+
+@method_decorator(admin_root_required, name='get')
 class GenerateSolutions(View):
     def get(self, request, *args, **kwargs):
         username = request.session.get('username', '0')
@@ -253,83 +295,121 @@ class GenerateSolutions(View):
         return render(request, 'ADTAA/generateSolutions.html', context)
 
     def post(self, request, *args, **kwargs):
-        instructors_list = ADTAA_models.Instructor.objects.all()
-        classes_list = ADTAA_models.Class.objects.all()
+        if 'create_solution' in request.POST:
+            instructors_list = ADTAA_models.Instructor.objects.all()
+            classes_list = ADTAA_models.Class.objects.all()
+            classes = {}
+            not_assigned_classes = []
+            instructors_load = {}
+            temp_solution = {}
+            i_list = []
 
-        classes = {}
-        not_assigned_classes = []
-        instructors_load = {}
-        i_list = []
+            for i in instructors_list:
+                i_list.append(i.instructor_id)
+                instructors_load[i.instructor_id] = int(i.maximum_class_load)
+                temp_solution[i.instructor_id] = []
 
-        for i in instructors_list:
-            i_list.append(i.instructor_id)
-            instructors_load[i.instructor_id] = int(i.maximum_class_load)
-
-        biggest_disciplines_area_count = 0
-        for i in classes_list:
-            classes[i.course_number] = [i.disciplines_area.count()]
-            for j in instructors_list:
-                if any(x in list(i.disciplines_area.all()) for x in list(j.disciplines_area.all())):
-                    if j.disciplines_area.count() > biggest_disciplines_area_count:
-                        classes[i.course_number].insert(1, j.instructor_id)
-                        biggest_disciplines_area_count = j.disciplines_area.count()
+            biggest_disciplines_area_count = 0
+            for i in classes_list:
+                classes[i.course_number] = [i.disciplines_area.count()]
+                for j in instructors_list:
+                    if any(x in list(i.disciplines_area.all()) for x in list(j.disciplines_area.all())):
+                        if j.disciplines_area.count() > biggest_disciplines_area_count:
+                            classes[i.course_number].insert(1, j.instructor_id)
+                            biggest_disciplines_area_count = j.disciplines_area.count()
+                        else:
+                            classes[i.course_number].append(j.instructor_id)
                     else:
-                        classes[i.course_number].append(j.instructor_id)
-                else:
-                    if j == instructors_list.last() and len(classes[i.course_number]) == 1:
-                        not_assigned_classes.append(i.course_number)
-                        del classes[i.course_number]
+                        if j == instructors_list.last() and len(classes[i.course_number]) == 1:
+                            not_assigned_classes.append(i.course_number)
+                            del classes[i.course_number]
 
-        one_instructor_classes = {k: v for k, v in classes.items() if len(v) == 2}
-        classes = {k: v for k, v in classes.items() if len(v) > 2}
+            # one_instructor_classes = {k: v for k, v in classes.items() if len(v) == 2}
+            # classes = {k: v for k, v in classes.items() if len(v) > 2}
 
-        # sort classes by disciplines_area numbers
-        classes = {k: v for k, v in sorted(classes.items(), key=lambda item: item[1], reverse=True)}
-        classes = list(classes.items())
-        for c in classes:
-            c[1].pop(0)
-        c_list = classes.copy()
-        print("before solution:", classes)
-        print("one_instructor_classes:", one_instructor_classes)
-        print("not_assigned_classes", not_assigned_classes)
+            # sort classes by disciplines_area numbers
+            classes = {k: v for k, v in sorted(classes.items(), key=lambda item: item[1], reverse=True)}
+            classes = list(classes.items())
+            for c in classes:
+                c[1].pop(0)
+            rest_classes = dict(classes)
+            print("before solution:", classes)
+            # print("one_instructor_classes:", one_instructor_classes)
+            print("not_assigned_classes", not_assigned_classes)
 
-        temp_solution = []
+            classes = classes.copy()
+            temp_instructors_load = instructors_load.copy()
+            not_assigned_classes_num = make_solution(classes, temp_instructors_load, rest_classes,
+                                                     temp_solution)
 
-        for i, elem in enumerate(classes):
-            if len(instructors_load) == 0:
-                break
-            for instructor in classes[i][1]:
-                if len(instructors_load) == 0:
-                    break
-                if instructor not in instructors_load:
-                    continue
-                else:
-                    instructors_load[instructor] = instructors_load[instructor] - 1
-                    temp_solution.append([classes[i][0], instructor])
-                    if instructors_load[instructor] == 0:
-                        del instructors_load[instructor]
-                c_list.pop(0)
-                break
-            if len(c_list) == 0:
-                break
+            print(rest_classes)
+            print(temp_solution)
 
-        print(i_list)
-        print(temp_solution)
+            if len(rest_classes) == 0:
+                best_solution = temp_solution.copy()
+                lowest_not_assigned_classes = rest_classes
+            else:
+                best_solution = temp_solution.copy()
+                for x in range(0, 50):
+                    temp_classes = random.sample(classes, len(classes))
+                    for i in temp_classes:
+                        random.shuffle(i[1])
+                    temp_instructors_load = instructors_load.copy()
+                    rest_classes = dict(temp_classes)
+                    for i in instructors_list:
+                        temp_solution[i.instructor_id] = []
+                    print('-----------')
+                    print(temp_classes)
+                    new_not_assigned_classes_num = make_solution(temp_classes, temp_instructors_load, rest_classes,
+                                                                 temp_solution)
+                    print(temp_solution)
+                    print(rest_classes)
+                    if new_not_assigned_classes_num < not_assigned_classes_num:
+                        not_assigned_classes_num = new_not_assigned_classes_num
+                        lowest_not_assigned_classes = rest_classes
+                        best_solution = temp_solution.copy()
+                        print("!")
+                    if len(rest_classes) == 0:
+                        break
 
-        for i in temp_solution:
-            i[0] = "Course: " + i[0]+" - "
-            i[1] = "Instructor: " + i[1]
+            solution_context = []
+            for instructor, classes in best_solution.items():
+                i = ADTAA_models.Instructor.objects.get(instructor_id=instructor)
+                for c in classes:
+                    instructor_class = ADTAA_models.Class.objects.get(course_number=c)
+                    solution_context.append({'Course_number': instructor_class.course_number,
+                                             'Course_title': instructor_class.course_title,
+                                             'Start_time': instructor_class.start_time,
+                                             'End_time': instructor_class.end_time,
+                                             'Instructor': i.last_name,
+                                             'Instructor_id': i.instructor_id})
+            print(solution_context)
+            for i in not_assigned_classes:
+                lowest_not_assigned_classes[i] = ''
+            not_assigned_classes_context = []
+            for c in lowest_not_assigned_classes:
+                not_assigned_class = ADTAA_models.Class.objects.get(course_number=c)
+                not_assigned_classes_context.append({'Course_number': not_assigned_class.course_number,
+                                                     'Course_title': not_assigned_class.course_title,
+                                                     'Start_time': not_assigned_class.start_time,
+                                                     'End_time': not_assigned_class.end_time,
+                                                     })
+            context = {
+                'solution': solution_context,
+                'no_assigned_class': not_assigned_classes_context
+            }
 
-        context = {
-            'solution': temp_solution,
-        }
-
-        if request.method == 'POST':
-            if 'PDF' in request.POST:
-                return render_to_pdf('ADTAA/generateSolutions.html', context)
-
-        return render(request, 'ADTAA/generateSolutions.html', context)
-
+            return render(request, 'ADTAA/generateSolutions.html', context)
+        if 'save' in request.POST:
+            context = {
+                'save': "saved!",
+            }
+            return render(request, 'ADTAA/generateSolutions.html', context)
+        if 'reset' in request.POST:
+            context = {
+                'save': "Reset!",
+            }
+            return render(request, 'ADTAA/generateSolutions.html', context)
 
 
 @login_required(login_url='/ADTAA/')
