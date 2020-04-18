@@ -394,6 +394,7 @@ class GenerateSolutions(View):
                                                      'Start_time': not_assigned_class.start_time,
                                                      'End_time': not_assigned_class.end_time,
                                                      })
+            request.session['solution'] = best_solution
             context = {
                 'solution': solution_context,
                 'no_assigned_class': not_assigned_classes_context
