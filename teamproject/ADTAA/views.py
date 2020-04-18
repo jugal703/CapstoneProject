@@ -239,8 +239,6 @@ def edit_solutions(request):
     }
     return render(request, 'ADTAA/editSolutions.html', context)
 
-
-@method_decorator(login_required(login_url='/ADTAA/'), name='get')
 def make_solution(classes, instructors_load, rest_classes, curr_solution):
     for i, elem in enumerate(classes):
         if len(instructors_load) == 0:
@@ -399,10 +397,7 @@ class GenerateSolutions(View):
                 'no_assigned_class': not_assigned_classes_context
             }
 
-        if request.method == 'POST':
-            if 'PDF' in request.POST:
-                return render_to_pdf('ADTAA/generateSolutions.html', context)
-
+            return render(request, 'ADTAA/generateSolutions.html', context)
         if 'save' in request.POST:
             context = {
                 'save': "saved!",

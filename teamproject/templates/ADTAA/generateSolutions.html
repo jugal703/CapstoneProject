@@ -39,15 +39,26 @@
                      <td>{{ instances.Instructor }} | </td>
                      <td>{{ instances.Instructor_id }} | </td>
                   </tr>
+
                  </li>
              {% endfor %}
-<<<<<<< HEAD
+        <h1>No Assigned Classes</h1>
+            {% for class in no_assigned_class %}
+                 <li>
+                <td>{{ class.Course_number }}</td>
+                    <td>{{ class.Course_title }}</td>
+                     <td>{{ class.Start_time }}</td>
+                     <td>{{ class.End_time }}</td>
 
-        <button>Solution</button>
+                 </li>
+             {% endfor %}
+
+         <button name="create_solution">Solution</button>
+        <button name="save">Save</button>
+        <button name="reset">Reset</button>
         </br>
         </br>
         <button type="submit" name="PDF">Download PDF</button>
-=======
         <h1>No Assigned Classes</h1>
             {% for class in no_assigned_class %}
                  <li>
@@ -62,7 +73,6 @@
         <button name="create_solution">Solution</button>
         <button name="save">Save</button>
         <button name="reset">Reset</button>
->>>>>>> 6104ffb1f461be251dd5506cb95a1958e8626702
         </form>
     </div>
 </body>
