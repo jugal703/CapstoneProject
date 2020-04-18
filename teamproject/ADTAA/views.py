@@ -401,11 +401,25 @@ class GenerateSolutions(View):
 
             return render(request, 'ADTAA/generateSolutions.html', context)
         if 'save' in request.POST:
+
+            best_solution = request.session.get('solution', None)
+            if best_solution:
+                for instructor, classes in best_solution.items():
+                    instructor = ADTAA_models.Instructor.objects.get(instructor_id=instructor)
+                    for c in classes:
+                        instructor_class = ADTAA_models.Class.objects.get(course_number=c)
+                        instructor_class.assigned_instructor = instructor.instructor_id
+                        instructor_class.save()
+
             context = {
                 'save': "saved!",
             }
             return render(request, 'ADTAA/generateSolutions.html', context)
         if 'reset' in request.POST:
+            classes_list = ADTAA_models.Class.objects.all()
+            for c in classes_list:
+                c.assigned_instructor = "No Instructor"
+                c.save()
             context = {
                 'save': "Reset!",
             }
