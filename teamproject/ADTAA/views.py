@@ -9,7 +9,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 
-
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
 from ADTAA.globals import raise_unexpected_error
@@ -219,16 +218,23 @@ def edit_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     form = ADTAA_forms.SolutionForm
+
     context = {
         'user_type': user.user_type,
         'form': form
     }
 
     if request.method == 'POST':
-        form = ADTAA_forms.SolutionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Solution Has Been Saved.')
+        instructors = request.POST.getlist('instructors')
+        class_num = 0
+        for i in instructors:
+            temp = request.POST.copy()
+            temp['instructors'] = i
+            form = ADTAA_forms.SolutionForm(temp)
+            if form.is_valid():
+                form.save(class_num)
+            class_num += 1
+
     return render(request, 'ADTAA/editSolutions.html', context)
 
 
@@ -568,7 +574,6 @@ class ChangePassword(View):
             return None
         except Exception as e:
             raise_unexpected_error(e)
-
 
 
 @login_required(login_url='/ADTAA/')

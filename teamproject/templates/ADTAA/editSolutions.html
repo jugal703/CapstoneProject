@@ -43,12 +43,14 @@
                 <table>
                     <tr>
                         <th style="background-color: #d3d3d3">Course Title</th>
+                        <th style="background-color: #d3d3d3">Current Instructor</th>
                         <th style="background-color: #d3d3d3">Instructor ID</th>
                     </tr>
             {% for field in form.courses %}
                 <tr>
                     <td>{{ field.course_title }}</td>
-                    <td>{{ form.instructors }}</td>
+                    <td>{{ field.assigned_instructor }}</td>
+                    <td >{{ form.instructors}}</td>
                 </tr>
             {% endfor %}
                 </table>
