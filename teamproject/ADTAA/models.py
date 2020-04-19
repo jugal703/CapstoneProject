@@ -52,7 +52,7 @@ class Class(models.Model):
     disciplines_area = models.ManyToManyField('DisciplinesAreas')
 
     def __str__(self):
-        return self.course_number
+        return str(self.course_number)
 
 
 class Instructor(models.Model):
@@ -62,11 +62,11 @@ class Instructor(models.Model):
     disciplines_area = models.ManyToManyField('DisciplinesAreas')
 
     def __str__(self):
-        return self.instructor_id
+        return str(self.instructor_id)
 
 
 class DisciplinesAreas(models.Model):
     disciplines_area = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
-        return self.disciplines_area
+        return str(self.disciplines_area)

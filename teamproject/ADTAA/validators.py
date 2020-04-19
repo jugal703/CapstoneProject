@@ -1,5 +1,3 @@
-import re
-
 from django.contrib.auth.password_validation import CommonPasswordValidator, \
     MinimumLengthValidator, \
     NumericPasswordValidator, \

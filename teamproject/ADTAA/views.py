@@ -8,28 +8,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from io import BytesIO
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
 
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
 
 import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
 from ADTAA.globals import raise_unexpected_error
 
-
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='schedule/pdf')
-    return None
 
 class Index(View):
     def get(self, request, *args, **kwargs):
@@ -234,10 +218,19 @@ def scheduler_nav(request):
 def edit_solutions(request):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
+    form = ADTAA_forms.SolutionForm
     context = {
         'user_type': user.user_type,
+        'form': form
     }
+
+    if request.method == 'POST':
+        form = ADTAA_forms.SolutionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Solution Has Been Saved.')
     return render(request, 'ADTAA/editSolutions.html', context)
+
 
 def make_solution(classes, instructors_load, rest_classes, curr_solution):
     for i, elem in enumerate(classes):
@@ -281,7 +274,7 @@ def make_solution(classes, instructors_load, rest_classes, curr_solution):
     return len(rest_classes)
 
 
-@method_decorator(admin_root_required, name='get')
+@method_decorator(login_required(), name='get')
 class GenerateSolutions(View):
     def get(self, request, *args, **kwargs):
         username = request.session.get('username', '0')
@@ -294,6 +287,8 @@ class GenerateSolutions(View):
 
     def post(self, request, *args, **kwargs):
         if 'create_solution' in request.POST:
+            username = request.session.get('username', '0')
+            user = ADTAA_models.BaseUser.objects.get(username=username)
             instructors_list = ADTAA_models.Instructor.objects.all()
             classes_list = ADTAA_models.Class.objects.all()
             classes = {}
@@ -348,6 +343,7 @@ class GenerateSolutions(View):
                 lowest_not_assigned_classes = rest_classes
             else:
                 best_solution = temp_solution.copy()
+                lowest_not_assigned_classes = rest_classes
                 for x in range(0, 50):
                     temp_classes = random.sample(classes, len(classes))
                     for i in temp_classes:
@@ -378,10 +374,12 @@ class GenerateSolutions(View):
                     solution_context.append({'Course_number': instructor_class.course_number,
                                              'Course_title': instructor_class.course_title,
                                              'Start_time': instructor_class.start_time,
+                                             'Meeting_days': instructor_class.meeting_days,
                                              'End_time': instructor_class.end_time,
                                              'Instructor': i.last_name,
                                              'Instructor_id': i.instructor_id})
             print(solution_context)
+
             for i in not_assigned_classes:
                 lowest_not_assigned_classes[i] = ''
             not_assigned_classes_context = []
@@ -389,18 +387,30 @@ class GenerateSolutions(View):
                 not_assigned_class = ADTAA_models.Class.objects.get(course_number=c)
                 not_assigned_classes_context.append({'Course_number': not_assigned_class.course_number,
                                                      'Course_title': not_assigned_class.course_title,
+                                                     'Meeting_days': not_assigned_class.meeting_days,
                                                      'Start_time': not_assigned_class.start_time,
                                                      'End_time': not_assigned_class.end_time,
                                                      })
             request.session['solution'] = best_solution
             context = {
                 'solution': solution_context,
-                'no_assigned_class': not_assigned_classes_context
+                'no_assigned_class': not_assigned_classes_context,
+                'user_type': user.user_type
             }
+            return render(request, 'ADTAA/generateSolutions1.html', context)
 
+        if 'print' in request.POST:
+            username = request.session.get('username', '0')
+            user = ADTAA_models.BaseUser.objects.get(username=username)
+            context = {
+                'save': "Solution Printed!",
+                'user_type': user.user_type
+            }
             return render(request, 'ADTAA/generateSolutions.html', context)
-        if 'save' in request.POST:
 
+        if 'save' in request.POST:
+            username = request.session.get('username', '0')
+            user = ADTAA_models.BaseUser.objects.get(username=username)
             best_solution = request.session.get('solution', None)
             if best_solution:
                 for instructor, classes in best_solution.items():
@@ -411,23 +421,24 @@ class GenerateSolutions(View):
                         instructor_class.save()
 
             context = {
-                'save': "saved!",
+                'save': "Solution Saved!",
+                'user_type': user.user_type
             }
             return render(request, 'ADTAA/generateSolutions.html', context)
+
         if 'reset' in request.POST:
+            username = request.session.get('username', '0')
+            user = ADTAA_models.BaseUser.objects.get(username=username)
             classes_list = ADTAA_models.Class.objects.all()
             for c in classes_list:
                 c.assigned_instructor = "No Instructor"
                 c.save()
+
             context = {
-                'save': "Reset!",
+                'save': "Solution Reset!",
+                'user_type': user.user_type
             }
             return render(request, 'ADTAA/generateSolutions.html', context)
-
-
-@login_required(login_url='/ADTAA/')
-def solution(request):
-    return render(request, 'ADTAA/solution.html')
 
 
 class Register(View):
@@ -495,6 +506,7 @@ class ChangePassword(View):
         context = {
             'password_form': self.password_form,
         }
+
         return render(request, 'ADTAA/password.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -519,6 +531,7 @@ class ChangePassword(View):
             return render(request, 'ADTAA/password.html', context)
 
         self.password_form.save()
+        messages.success(request, 'Your Password Has Been Changed.')
         return redirect('/ADTAA')
 
     @staticmethod
@@ -555,6 +568,7 @@ class ChangePassword(View):
             return None
         except Exception as e:
             raise_unexpected_error(e)
+
 
 
 @login_required(login_url='/ADTAA/')

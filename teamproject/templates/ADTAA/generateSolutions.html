@@ -22,57 +22,19 @@
         {% elif user_type == "root" %}
             {% include 'ADTAA/rootNav.html' %}
 {% endif %}
+<div class="reg-page" style="padding-top: 6%;">
  <div class="form" style="max-width: 75%; margin-bottom: 2%;">
         <form class="register-form" method="post">
         {% csrf_token %}
+            <h3 style="color: #4CAF50">{{ save}}</h3>
             <h1>Solution</h1>
 
-                 <td>{{ save}}</td>
+         <button name="create_solution">View Solution</button>
+            <div style="margin-top: 4%;">
+            {% include 'ADTAA/footer.html' %}
+            </div>
 
-             {% for instances in solution %}
-                 <li>
-                 <tr>
-                     <td>{{ instances.Course_number }} | </td>
-                    <td>{{ instances.Course_title }} | </td>
-                     <td>{{ instances.Start_time }} | </td>
-                     <td>{{ instances.End_time }} | </td>
-                     <td>{{ instances.Instructor }} | </td>
-                     <td>{{ instances.Instructor_id }} | </td>
-                  </tr>
-
-                 </li>
-             {% endfor %}
-        <h1>No Assigned Classes</h1>
-            {% for class in no_assigned_class %}
-                 <li>
-                <td>{{ class.Course_number }}</td>
-                    <td>{{ class.Course_title }}</td>
-                     <td>{{ class.Start_time }}</td>
-                     <td>{{ class.End_time }}</td>
-
-                 </li>
-             {% endfor %}
-
-         <button name="create_solution">Solution</button>
-        <button name="save">Save</button>
-        <button name="reset">Reset</button>
-        </br>
-        </br>
-        <button type="submit" name="PDF">Download PDF</button>
-        <h1>No Assigned Classes</h1>
-            {% for class in no_assigned_class %}
-                 <li>
-                <td>{{ class.Course_number }}</td>
-                    <td>{{ class.Course_title }}</td>
-                     <td>{{ class.Start_time }}</td>
-                     <td>{{ class.End_time }}</td>
-
-                 </li>
-             {% endfor %}
-
-        <button name="create_solution">Solution</button>
-        <button name="save">Save</button>
-        <button name="reset">Reset</button>
         </form>
     </div>
+</div>
 </body>

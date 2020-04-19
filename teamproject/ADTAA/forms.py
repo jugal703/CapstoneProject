@@ -30,7 +30,6 @@ class RegistrationForm(forms.Form):
         label=False,
         widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Password'}),
         validators=[validators.PasswordValidator()],
-
     )
     question1 = forms.CharField(
         max_length=128,
@@ -96,7 +95,6 @@ class ChangePasswordForm(forms.Form):
         label=False,
         widget=forms.TextInput(
             attrs={'class': 'form_text_input', 'placeholder': 'What is street did you live on as a child?'}),
-
     )
     new_password = forms.CharField(
         max_length=255,
@@ -120,7 +118,6 @@ class ChangePasswordForm(forms.Form):
                  On Failure: Raises ValidationError
         """
         cleaned_data = super().clean()
-
         password = cleaned_data.get('new_password', None)
         verify_password = cleaned_data.get('verify_password', None)
 
@@ -160,10 +157,6 @@ class ChangePasswordForm(forms.Form):
                 user.save()
 
             return user
-
-
-
-
         except Exception as e:
             # We would never expect an error here because this function should only be called after checking to make
             # sure that the form is valid.
@@ -349,3 +342,12 @@ class NewClassForm(forms.ModelForm):
             'start_time': "Start Time (hh:mm:ss 24-hour clock)",
             'end_time': "End Time (75 min after start time)"
         }
+
+
+class SolutionForm(forms.Form):
+    courses = base_models.Class.objects.filter(assigned_instructor='No Instructor').all()
+    instructors = forms.ModelChoiceField(queryset=base_models.Instructor.objects.all())
+
+
+
+
