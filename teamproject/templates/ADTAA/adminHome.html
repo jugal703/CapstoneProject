@@ -11,46 +11,82 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
 </head>
 <body style="height:1500px">
 
   {% include 'ADTAA/adminNav.html' %}
 
 </body>
-
 <div class="reg-page" style="padding-top: 6%;">
-    <div class="form" style="max-width: 75%; margin-bottom: 2%;">
+    <div class="form" style="max-width: 85%; margin-bottom: 2%;">
         <form class="register-form" method="post">
         {% csrf_token %}
             <h1>Instructors</h1>
-             {% for instances in instructors %}
-                 <li><a href={% url 'instructorProfile' instances.id %} <b> {{ instances }} - {{ instances.last_name }} </b> </a></li>
-                 <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="instrDelete">Delete</button>
 
-                     <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
-                    width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
+             <table>
+                    <tr>
+                        <th style="background-color: #d3d3d3">ID</th>
+                        <th style="background-color: #d3d3d3">Last Name</th>
+                        <th style="background-color: #d3d3d3">Actions</th>
+                    </tr>
+                    {% for instances in instructors %}
+                    <tr>
+                        <td><a href={% url 'instructorProfile' instances.id %} <b> {{ instances }} </b> </a></td>
+                        <td><a href={% url 'instructorProfile' instances.id %} <b> {{ instances.last_name }} </b> </a></td>
+                        <td>
+                            <button style="width: 18%; padding: 11px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="instrDelete">Delete</button>
+
+                            <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
+                         width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
                        href={% url 'editInstr' instances.id %}>Edit</a>
+                        </td>
+                    </tr>
              {% endfor %}
+             </table>
             <p class="message"><a href="{{ '/ADTAA/instrSetup/' }}">Add Instructor?</a>
             </p>
         </form>
     </div>
 
-    <div class="form" style="max-width: 75%;">
+    <div class="form" style="max-width: 85%;">
         <form class="register-form" method="post">
         {% csrf_token %}
             <h1>Classes</h1>
-             {% for instances in classes %}
-                    <li><a href={% url 'classProfile' instances.id %} <b> {{ instances }} - {{ instances.course_title }} </b> </a></li>
-                    <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="classDelete">Delete</button>
 
-                    <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
-                    width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
-                       href={% url 'editClass' instances.id %}>Edit</a>
-            {% endfor %}
+            <table>
+                    <tr>
+                        <th style="background-color: #d3d3d3">Number</th>
+                        <th style="background-color: #d3d3d3">Title</th>
+                        <th style="background-color: #d3d3d3">Actions</th>
+                    </tr>
+                    {% for instances in classes %}
+                        <tr>
+                        <td><a href={% url 'classProfile' instances.id %} <b> {{ instances }} </b> </a></td>
+                        <td><a href={% url 'classProfile' instances.id %} <b> {{ instances.course_title }} </b> </a></td>
+                        <td>
+                            <button style="width: 22%; padding: 11px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="classDelete">Delete</button>
+
+                            <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
+                            width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
+                            href={% url 'editClass' instances.id %}>Edit</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
             <p class="message"><a href="{{ '/ADTAA/classSetup/' }}">Add Class?</a>
             </p>
         </form>
     </div>
 </div>
-

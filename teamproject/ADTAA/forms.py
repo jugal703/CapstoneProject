@@ -4,7 +4,6 @@ import datetime as dt
 from ADTAA.globals import raise_unexpected_error
 import ADTAA.models as base_models
 import ADTAA.validators as validators
-from django.contrib import messages
 
 hours = [(None, 'Hour')] + [('{:02d}'.format(x), '{:02d}'.format(x)) for x in range(0, 24)]
 mins = [(None, 'Minute')] + [('{:02d}'.format(i), '{:02d}'.format(i)) for i in range(60)]
@@ -311,7 +310,8 @@ class ClassForm(forms.Form):
                 new_class.disciplines_area.add(discipline_area)
 
             new_class.start_time = dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S').time()
-            new_class.end_time = (dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S') + dt.timedelta(minutes=75)).time()
+            new_class.end_time = (
+                    dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S') + dt.timedelta(minutes=75)).time()
             new_class.save()
 
             return new_class
@@ -346,8 +346,16 @@ class NewClassForm(forms.ModelForm):
 
 
 class SolutionForm(forms.Form):
-    courses = base_models.Class.objects.filter(assigned_instructor='No Instructor').all()
-    instructors = forms.ModelChoiceField(queryset=base_models.Instructor.objects.all())
+    courses = base_models.Class.objects.all()
+    instructors = forms.ModelChoiceField(queryset=base_models.Instructor.objects.all(), required=False)
 
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        self.courses = base_models.Class.objects.all()
 
-
+    def save(self, class_num):
+        instructor = self.cleaned_data.get('instructors', None)
+        if instructor:
+            c = self.courses[class_num]
+            c.assigned_instructor = str(instructor)
+            c.save()
