@@ -557,6 +557,7 @@ class ChangePassword(View):
 
             # The if/else statement below could be reduced to the following one-liner:
             # return user_object if not user_object.has_unusable_password() else None
+
             if user_object.has_usable_password():
                 return None
             else:

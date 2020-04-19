@@ -4,6 +4,7 @@ import datetime as dt
 from ADTAA.globals import raise_unexpected_error
 import ADTAA.models as base_models
 import ADTAA.validators as validators
+from django.contrib import messages
 
 hours = [(None, 'Hour')] + [('{:02d}'.format(x), '{:02d}'.format(x)) for x in range(0, 24)]
 mins = [(None, 'Minute')] + [('{:02d}'.format(i), '{:02d}'.format(i)) for i in range(60)]
@@ -117,6 +118,7 @@ class ChangePasswordForm(forms.Form):
         :return: On Success: None
                  On Failure: Raises ValidationError
         """
+
         cleaned_data = super().clean()
         password = cleaned_data.get('new_password', None)
         verify_password = cleaned_data.get('verify_password', None)
@@ -155,7 +157,6 @@ class ChangePasswordForm(forms.Form):
                 user = base_models.BaseUser.objects.get(username=username)
                 user.set_password(password)
                 user.save()
-
             return user
         except Exception as e:
             # We would never expect an error here because this function should only be called after checking to make
@@ -347,7 +348,6 @@ class NewClassForm(forms.ModelForm):
 class SolutionForm(forms.Form):
     courses = base_models.Class.objects.filter(assigned_instructor='No Instructor').all()
     instructors = forms.ModelChoiceField(queryset=base_models.Instructor.objects.all())
-
 
 
 
