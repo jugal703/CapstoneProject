@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADTAA/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADTAA/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teamproject/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/teamproject/asgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teamproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/teamproject/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teamproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/teamproject/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teamproject/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/teamproject/wsgi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,13 +64,14 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ADTAA" />
       <recent name="$PROJECT_DIR$/ADTAA/static" />
       <recent name="$PROJECT_DIR$/ADTAA/static/ADTAA" />
       <recent name="$PROJECT_DIR$/templates/ADTAA" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager">
@@ -130,7 +133,7 @@
       <workItem from="1587289520326" duration="437000" />
       <workItem from="1587302782648" duration="11180000" />
       <workItem from="1587330842113" duration="3231000" />
-      <workItem from="1587334968967" duration="6608000" />
+      <workItem from="1587334968967" duration="7718000" />
     </task>
     <servers />
   </component>

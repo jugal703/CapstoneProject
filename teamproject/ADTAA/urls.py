@@ -3,6 +3,7 @@ from . import views
 from ADTAA.views import *
 from django.contrib.auth.decorators import login_required
 from django.urls import path
+from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', Index.as_view(), name='index'),
@@ -56,5 +57,7 @@ urlpatterns = [
     path('instructorProfile/<str:pk>/', views.instructor_profile, name='instructorProfile'),
 
     path('classProfile/<str:pk>/', views.class_profile, name='classProfile'),
+
+    url(r'^admin/', admin.site.urls),
 
 ]
