@@ -1,20 +1,69 @@
 
 {% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>ADTAA Home Page</title>
+  <title>Edit Solutions</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+    </style>
 </head>
 <body style="height:1500px">
 
+{% if user_type == "scheduler" %}
   {% include 'ADTAA/schedulerNav.html' %}
-
-
+    {% elif user_type == "admin" %}
+        {% include 'ADTAA/adminNav.html' %}
+        {% elif user_type == "root" %}
+            {% include 'ADTAA/rootNav.html' %}
+{% endif %}
+<div class="reg-page" style="padding-top: 6%;">
+ <div class="form" style="max-width: 75%; margin-bottom: 2%;">
+        <form class="register-form" method="post">
+        {% csrf_token %}
+            <h1>Solution</h1>
+                <table>
+                    <tr>
+                        <th style="background-color: #d3d3d3">Course Title</th>
+                        <th style="background-color: #d3d3d3">Current Instructor</th>
+                        <th style="background-color: #d3d3d3">Instructor ID</th>
+                    </tr>
+            {% for field in form.courses %}
+                <tr>
+                    <td>{{ field.course_title }}</td>
+                    <td>{{ field.assigned_instructor }}</td>
+                    <td >{{ form.instructors}}</td>
+                </tr>
+            {% endfor %}
+                </table>
+        </br>
+        </br>
+        <button>Save</button>
+        </br>
+        </br>
+        <button name="print" onclick="window.print()">Print Schedule</button>
+        <div style="margin-top: 4%;">
+            {% include 'ADTAA/footer.html' %}
+            </div>
+        </form>
+ </div>
+</div>
 </body>

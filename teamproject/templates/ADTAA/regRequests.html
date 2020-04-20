@@ -1,0 +1,38 @@
+
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Registration Requests</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="height:1500px">
+
+{% include 'ADTAA/rootNav.html' %}
+
+
+<div style="margin-top: 6%;">
+    <form method="post">
+        {% csrf_token %}
+            <ul>
+                <h2>User Registration Requests</h2>
+                {% for instances in users %}
+                    <li><b> {{ instances }} - {{ instances.user_type }} </b></li>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" name="Approve">Approve</button>
+                    <button style="width: 10%; padding: 7px;" type="submit" value="{{ instances }}" name="Deny">Deny</button>
+                    </br>
+                    </br>
+                {% endfor %}
+
+            </ul>
+    </form>
+</div>
+</body>
+

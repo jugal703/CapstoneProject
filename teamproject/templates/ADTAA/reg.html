@@ -1,6 +1,16 @@
 {% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>User Registration</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
 <form method="POST" action="{{ request.path }}">
 
@@ -15,24 +25,39 @@
     {% csrf_token %}
 
 
+<body style="overflow: hidden;">
+    <div class="reg-page" style="padding-top: 1%;">
+         <div class="form">
+            <form class="register-form">
+                <h1>Registration Page</h1>
+                 {{ registration_form.as_table }}
+                <button  type="submit">Register</button>
 
-<div class="reg-page">
-    <div class="form">
-        <form class="register-form">
-            <h1>Registration Page</h1>
-            <select id="userType" name="userType">
-                <option value="" disabled selected>Select a User Type</option>
-                <option value="admin">Admin</option>
-                <option value="scheduler">Scheduler</option>
-            </select>
-            <input type="text" id="email" name="email" placeholder="Email"/>
-            <input type="password" id="password" name="password" placeholder="Password"/>
-            <input type="secQuestion1" id="question1" name="question1" placeholder="What primary school did you attend?"/>
-            <input type="secQuestion2" id="question2" name="question2" placeholder="What is street did you live on as a child?"/>
-            <button  type="submit">Register</button>
-            <p class="message">Already registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
-        </form>
+                <p class="message"> Create a Secure Password?
+	                <a class="button" href="#popup1">Password Rules</a>
+                </p>
+
+                <div id="popup1" class="overlay">
+	                <div class="popup">
+		                <h2>Password Rules</h2>
+                            <a class="close" href="#">&times;</a>
+		                <div class="content">
+                            <ul style="text-align: left">
+                                <li> Minimum 8 Characters </li>
+                                <li> At Least One Letter (A-Z) </li>
+                                <li> At Least One Number (0-9) </li>
+                                <li> At Least One Special Character (e.g., ! $ # %) </li>
+                            </ul>
+		                </div>
+	                </div>
+                </div>
+
+                <p class="message">Already Registered? <a href="http://127.0.0.1:8000/ADTAA/">Sign In</a></p>
+
+                </br>
+                {% include 'ADTAA/footer.html' %}
+            </form>
+        </div>
     </div>
-</div>
-
+</body>
 </form>

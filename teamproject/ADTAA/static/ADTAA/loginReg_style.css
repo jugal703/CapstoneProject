@@ -5,6 +5,7 @@
   padding: 8% 0 0;
   margin: auto;
   overflow: hidden;
+
 }
 .form {
   position: relative;
@@ -16,17 +17,20 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #f2f2f2;
   width: 100%;
+  background: #f2f2f2;
   border: 0;
   margin: 0 0 15px;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
 }
+
+
 
 .form select {
   font-family: "Roboto", sans-serif;
@@ -52,6 +56,7 @@
   font-size: 14px;
 }
 
+
 .form button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
@@ -62,10 +67,24 @@
   padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
   cursor: pointer;
 }
+
+
+button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 5%;
+  border: 0;
+  padding: 7px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
 .form button:hover,.form button:active,.form button:focus {
   background: #43A047;
 }
@@ -78,8 +97,7 @@
   color: #4CAF50;
   text-decoration: none;
 }
-.form .register-form {
-}
+
 .container {
   position: relative;
   z-index: 1;
@@ -114,15 +132,35 @@
 .container .info span .fa {
   color: #EF3B3A;
 }
+
+body.index {
+    background-image: url("IMG_3936.jpg");
+    min-height: 50px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
 body {
   background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+
+background: -moz-linear-gradient(right, #76b852, #8DC26F);
+
+background: -o-linear-gradient(right, #76b852, #8DC26F);
+
+background: linear-gradient(to left, #76b852, #8DC26F);
+
+font-family: "Roboto", sans-serif;
+
+-webkit-font-smoothing: antialiased;
+
+-moz-osx-font-smoothing: grayscale;
+
 }
 
 /* Style the navbar */
@@ -158,3 +196,71 @@ body {
   padding-top: 60px;
 }
 
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: "Roboto", sans-serif;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
+
+ul,
+ol {
+ text-align: left;
+}
+
+input[type=checkbox], input[type=radio] {
+    width: auto;
+}

@@ -1,0 +1,52 @@
+
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Class Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="height:1500px">
+
+{% if user_type == "scheduler" %}
+  {% include 'ADTAA/schedulerNav.html' %}
+    {% elif user_type == "admin" %}
+        {% include 'ADTAA/adminNav.html' %}
+        {% elif user_type == "root" %}
+            {% include 'ADTAA/rootNav.html' %}
+{% endif %}
+
+<div style="margin-top: 6%;">
+    <form method="post">
+        {% csrf_token %}
+            <ul>
+                <h2>Class Profile</h2>
+                    <li><b> {{ course.course_number }} - {{ course.course_title }}
+                            </br>
+                        <p>Meeting Days: {{ course.meeting_days }}</p>
+                        <p>Start Time: {{ course.start_time }}</p>
+                        <p>End Time: {{ course.end_time }}</p>
+                        <p>Discipline Areas: {% for instance in course.disciplines_area.all %}
+                            {% if not forloop.first %}, {% endif %}
+                            {{ instance.disciplines_area }}
+                        {% endfor %}
+                        </p>
+                    </b></li>
+              {% if user_type == 'root' or user_type == 'admin' %}
+               <button style="width: 5%; padding: 7px;" type="submit" value="{{ instances }}" onclick="return confirm('Are you sure you want to delete?');" name="classDelete">Delete</button>
+
+                 <a class="button" style="text-decoration: none; font-family: Roboto, sans-serif; text-transform: uppercase; outline: 0; background: #4CAF50;
+                    width: 10%; border: 0; padding: 9px; color: #FFFFFF; cursor: pointer; margin: 0 0 15px;"
+                       href={% url 'editClass' course.id %}>Edit</a>
+                {% endif %}
+            </ul>
+    </form>
+</div>
+</body>

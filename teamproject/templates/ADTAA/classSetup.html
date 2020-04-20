@@ -1,22 +1,54 @@
 {% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon2.png' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'ADTAA/loginReg_style.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Set Up Classes</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body style="height:1500px;">
+{% if user_type == "admin" %}
+    {% include 'ADTAA/adminNav.html' %}
+        {% elif user_type == "root" %}
+            {% include 'ADTAA/rootNav.html' %}
+{% endif %}
+</body>
+
+<form method="POST" action="{{ request.path }}">
 
 
-<div class="reg-page">
-    <div class="form">
+    {% if error %}
+    <div>
+        <h2>{{ error }}</h2>
+
+    </div>
+    {% endif %}
+
+    {% csrf_token %}
+
+<div class="reg-page" style="padding-top: 5%;">
+     {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+            <h2{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h2>
+        {% endfor %}
+    {% endif %}
+    <div class="form" style="max-width: 40%;">
         <form class="register-form">
             <h1>Add New Class</h1>
-            <input type="courseNum" placeholder="Course Number"/>
-            <input type="courseTitle" placeholder="Course Title"/>
-            <select id="meetingDays" name="Meeting Days">
-                <option value="" disabled selected>Select Meeting Days</option>
-                <option value="meetingDays">MWF</option>
-                <option value="meetingDays">TR</option>
-            </select>
-            <input type="meetingTimes" placeholder="Meeting Times"/>
-            <input type="classDiscipline" placeholder="Class Discipline" />
+            {{ class_form.as_table }}
             <button>Add Class</button>
-            <p class="message"><a href="http://127.0.0.1:8000/ADTAA/">Edit Class?</a>
+            <div style="margin-top: 4%;">
+            {% include 'ADTAA/footer.html' %}
+            </div>
         </form>
     </div>
 </div>
+
+</form>
