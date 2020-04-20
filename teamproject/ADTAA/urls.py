@@ -6,6 +6,11 @@ from django.urls import path
 
 urlpatterns = [
     url(r'^$', Index.as_view(), name='index'),
+
+    url(r'^ADTAA/$', Index.as_view(), name='index'),
+    
+    url(r'^admin/$', Index.as_view(), name='index'),
+
     # ex: /ADTAA/reg/
     url(r'^reg/$', Register.as_view(), name='reg'),
 

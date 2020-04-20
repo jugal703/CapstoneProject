@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teamproject/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/teamproject/wsgi.py" afterDir="false" />
-    </list>
+    <list default="true" id="f3183b05-afa9-41ce-8047-5468c3793f6b" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -130,7 +126,7 @@
       <workItem from="1587289520326" duration="437000" />
       <workItem from="1587302782648" duration="11180000" />
       <workItem from="1587330842113" duration="3231000" />
-      <workItem from="1587334968967" duration="5924000" />
+      <workItem from="1587334968967" duration="6124000" />
     </task>
     <servers />
   </component>
