@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <! –– Javascript function to allow for viewing of the password text when the box is checked ––>
     <script type="text/javascript">
 function reveal()
 {
@@ -50,8 +51,8 @@ document.getElementById("password").type='password';
             </br>
             </br>
             <button>Login</button>
-            <p class="message">Not Registered? <a href="http://127.0.0.1:8000/ADTAA/reg">Create an account</a></p>
-              <p class="message">Forgot Password? <a href="http://127.0.0.1:8000/ADTAA/password">Change Password</a></p>
+            <p class="message">Not Registered? <a href={% url 'reg' %}>Create an account</a></p>
+              <p class="message">Forgot Password? <a href={% url 'password' %}>Change Password</a></p>
             <div style="margin-top: 4%;">
             <img src="/static/logo.png" style="width: 60px; length: 60px;" alt="logo"/>
             </div>

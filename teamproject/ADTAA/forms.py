@@ -5,10 +5,15 @@ from ADTAA.globals import raise_unexpected_error
 import ADTAA.models as base_models
 import ADTAA.validators as validators
 
+# formats to ensure that hours are 24-clock and 60 for minutes
 hours = [(None, 'Hour')] + [('{:02d}'.format(x), '{:02d}'.format(x)) for x in range(0, 24)]
 mins = [(None, 'Minute')] + [('{:02d}'.format(i), '{:02d}'.format(i)) for i in range(60)]
 
-
+# form for user registration
+# Allows public user of the application to select a requested user type,
+# submit email address which will be the username of the user with a validator to validate email and that it is not an existing username,
+# submit password of choice and validates that it is one that meets all the password rules
+# submit answer to the two security questions
 class RegistrationForm(forms.Form):
     user_type = forms.ChoiceField(
         label=False,
@@ -46,18 +51,15 @@ class RegistrationForm(forms.Form):
     )
 
     def save(self):
-        """
-        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
-        have an unusable password
-        :return: On Success: A new WordyUser instance with an unusable password
-                 On Failure: Raises whichever error is caught
-        """
+
         username = self.cleaned_data.get('email', None)
         password = self.cleaned_data.get('password', None)
         question1 = self.cleaned_data.get('question1', None)
         question2 = self.cleaned_data.get('question2', None)
         user_type = self.cleaned_data.get('user_type', None)
 
+        # this function gets the inputted values and creates a new user in our BaseUser model
+        # important to note that isApproved is set to 'no' as it will require root user to be switched to 'yes'
         try:
             new_user = base_models.BaseUser(
                 username=username,
@@ -66,8 +68,8 @@ class RegistrationForm(forms.Form):
                 user_type=user_type,
                 isApproved="no",
             )
-            new_user.set_password(password)
-            new_user.save()
+            new_user.set_password(password)  # set the chosen password as the password for that requested user
+            new_user.save()  # save the new user to the database
 
             return new_user
         except Exception as e:
@@ -75,7 +77,11 @@ class RegistrationForm(forms.Form):
             # sure that the form is valid.
             raise_unexpected_error(e)
 
-
+# form to allow all registered users to change their chosen password
+# requires registered user to submit their email (username) for the app
+# requires registered user to answer the security questions with their preset answers
+# requires registered user to submit a new password and validates to check that the new password meets our password rules
+# requires registered user to submit a password verification
 class ChangePasswordForm(forms.Form):
     email = forms.CharField(
         max_length=128,
@@ -107,16 +113,9 @@ class ChangePasswordForm(forms.Form):
         label=False,
         widget=forms.PasswordInput(attrs={'class': 'form_text_input', 'placeholder': 'Verify Password'}),
     )
-
+    # function to get the values submitted for new password and password verification to ensure that it is the same
+    # throws a validation error if the two password entries are different
     def clean(self):
-        """
-        This function validates a Form instance by ensuring that the new password matches the verification password.
-        Note that the first thing this function does is call its parent class's clean() function. That call will cause
-        the wordy_validators.PasswordValidator() to run on this Form's instance of 'password' because a new instance
-        of that class is passed to the form variable's 'validators' argument.
-        :return: On Success: None
-                 On Failure: Raises ValidationError
-        """
 
         cleaned_data = super().clean()
         password = cleaned_data.get('new_password', None)
@@ -134,13 +133,10 @@ class ChangePasswordForm(forms.Form):
                 code='invalid',
             )
 
+    # function gets all the data entered and filters through the BaseUser model to find a match with the registered
+    # user's entry of username, answer to security question1, and answer to security question2
     def save(self):
-        """
-        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
-        have an unusable password
-        :return: On Success: A new WordyUser instance with an unusable password
-                 On Failure: Raises whichever error is caught
-        """
+
         username = self.cleaned_data.get('email', None)
         question1 = self.cleaned_data.get('question1', None)
         question2 = self.cleaned_data.get('question2', None)
@@ -153,6 +149,8 @@ class ChangePasswordForm(forms.Form):
                 sec_question2=question2
             ).count()
             if user:
+                # if a match is found in the database then it gets the user's username and sets the entered new password
+                # as the password for that user and saves it
                 user = base_models.BaseUser.objects.get(username=username)
                 user.set_password(password)
                 user.save()
@@ -162,29 +160,10 @@ class ChangePasswordForm(forms.Form):
             # sure that the form is valid.
             raise_unexpected_error(e)
 
-        '''
-        Please notice at this point that I have access to my user's new password IN PLAIN TEXT. You can verify
-        that by printing out "password" or "verify_password" to the console. Those variables hold whatever our
-        user entered in the HTML form. 
-
-        I'm pointing this out in this long comment to highlight one of the many important reasons that you
-        should be using some sort of password manager. You really need to be using unique passwords for every single
-        website account that you use and it's just not feasible to keep up with that many unique and strong passwords.
-
-        You really can't trust a website to not have access to the plaintext of any password you use for authentication
-        unless you can read the source code for the site and somehow verify that the precise copy of the source code
-        you read is the actual code running on both the server and client. Even then, Ken Thompson taught us that we
-        can't trust any software stack that we haven't written ourselves. It's really best to just assume that any
-        website you use has access to the plaintext version of the password you use for that site. That's why you
-        need to be sure that you never reuse passwords.
-
-        As developers, we're going to act ethically and verify our users' passwords using methods that won't allow us 
-        to actually learn the password. We also won't store that plaintext password anywhere. However, it's a good idea 
-        to assume that any website you visit was developed by unethical black hats that want to steal everything you 
-        own.
-        '''
-
-
+# form to add new instructor to Instructors Model
+# requires ID and last name of the instructor
+# requires maximum load per semester for the instructor with choice from 1 to 4
+# requires discipline areas of the instructor based off the list of discipline areas set
 class InstructorForm(forms.Form):
     instructor_id = forms.CharField(
         max_length=128,
@@ -213,13 +192,8 @@ class InstructorForm(forms.Form):
         choices=base_models.DISCIPLINES_AREAS
     )
 
+    # function to save the added instructor with its entries to the database
     def save(self):
-        """
-        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
-        have an unusable password
-        :return: On Success: A new WordyUser instance with an unusable password
-                 On Failure: Raises whichever error is caught
-        """
         instructor_id = self.cleaned_data.get('instructor_id', None)
         last_name = self.cleaned_data.get('last_name', None)
         maximum_class_load = self.cleaned_data.get('maximum_class_load', None)
@@ -245,7 +219,12 @@ class InstructorForm(forms.Form):
             # sure that the form is valid.
             raise_unexpected_error(e)
 
-
+# form to add new class to Class Model
+# requires course number and title of the instructor
+# requires meetings days for the class with choice of 'Monday and Wednesday' or 'Tuesday and Thursday'
+# requires the starting hour and minute of the class on a 24-hr clock format,
+# ending time is calculating as 75-mins after the start time
+# requires discipline areas of the class based off the list of discipline areas set
 class ClassForm(forms.Form):
     course_number = forms.CharField(
         max_length=128,
@@ -283,13 +262,8 @@ class ClassForm(forms.Form):
         choices=base_models.DISCIPLINES_AREAS
     )
 
+    # function to save the added instructor with its entries to the database
     def save(self):
-        """
-        This function creates and returns a new WordyUser instance from the Form data. The new WordyUser instance will
-        have an unusable password
-        :return: On Success: A new WordyUser instance with an unusable password
-                 On Failure: Raises whichever error is caught
-        """
         course_number = self.cleaned_data.get('course_number', None)
         course_title = self.cleaned_data.get('course_title', None)
         meeting_days = self.cleaned_data.get('meeting_days', None)
@@ -308,7 +282,7 @@ class ClassForm(forms.Form):
             for i in discipline_areas:
                 discipline_area = base_models.DisciplinesAreas.objects.get(disciplines_area=i)
                 new_class.disciplines_area.add(discipline_area)
-
+            # calculates the end time of the class to be 75 minutes after the start time
             new_class.start_time = dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S').time()
             new_class.end_time = (
                     dt.datetime.strptime(hour + ':' + min + ':00', '%H:%M:%S') + dt.timedelta(minutes=75)).time()
@@ -320,7 +294,7 @@ class ClassForm(forms.Form):
             # sure that the form is valid.
             raise_unexpected_error(e)
 
-
+# form to edit a instructor already in the Instructor model database
 class NewInstructorForm(forms.ModelForm):
     class Meta:
         model = base_models.Instructor
@@ -330,7 +304,7 @@ class NewInstructorForm(forms.ModelForm):
             'disciplines_area': forms.CheckboxSelectMultiple(choices=THE_CHOICES)
         }
 
-
+# form to edit a class already in the Class model database
 class NewClassForm(forms.ModelForm):
     class Meta:
         model = base_models.Class
@@ -344,7 +318,7 @@ class NewClassForm(forms.ModelForm):
             'end_time': "End Time (75 min after start time)"
         }
 
-
+# form to edit solution by pulling all the courses and allowing the user to select which instructor is assigned to it
 class SolutionForm(forms.Form):
     courses = base_models.Class.objects.all()
     instructors = forms.ModelChoiceField(queryset=base_models.Instructor.objects.all(), required=False)
@@ -352,7 +326,7 @@ class SolutionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
         self.courses = base_models.Class.objects.all()
-
+    # function to save the assigned instructors to the 'assigned_instructor' field in Class model
     def save(self, class_num):
         instructor = self.cleaned_data.get('instructors', None)
         if instructor:

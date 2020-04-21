@@ -13,29 +13,32 @@ import ADTAA.models as ADTAA_models
 import ADTAA.forms as ADTAA_forms
 from ADTAA.globals import raise_unexpected_error
 
-
+# class for the login page (landing page) of the app
 class Index(View):
+    # function to get and return the html of this login page
     def get(self, request, *args, **kwargs):
         return render(request, 'ADTAA/index.html')
-
+    # function to post the email and password entered by the user to check within the database
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
-
+        # throw error in the login page if email and password combination is not present in the database
         if not email or not password:
             context = {
                 'error': 'Must Pass In Every Verification.'
             }
             return render(request, 'ADTAA/index.html', context=context)
-
+        # if email and password combination is correct, get that user from BaseUser model
         try:
             user = ADTAA_models.BaseUser.objects.get(username=email)
+        # if the email and password combination represents a user not in the BaseUser model, throw error in the login page
         except ADTAA_models.BaseUser.DoesNotExist:
             context = {
                 'error': 'User Does Not Exist.'
             }
             return render(request, 'ADTAA/index.html', context=context)
-
+        # if email and password combination for user is correct and the user is approved, log user into app
+        # check user type of the user to direct to the homepage of that user type
         if user.check_password(password):
             if user.isApproved == "yes":
                 if user.user_type == "root":
@@ -51,6 +54,8 @@ class Index(View):
                     request.session['username'] = email
                     return redirect('/ADTAA/schedulerHome', request)
             else:
+                # if user is not approved by root, throw error and send email to root notifying the user
+                # attempting to log in
                 context = {
                     'error': 'User Has Not Been Approved Yet'
                 }
@@ -61,12 +66,13 @@ class Index(View):
                 send_mail(subject, body, email_from, recipient_list, fail_silently=False)
                 return render(request, 'ADTAA/index.html', context=context)
         else:
+            # if email and password combination is incorrect, throw error in the login page
             context = {
                 'error': 'Username Or Password Is Incorrect'
             }
             return render(request, 'ADTAA/index.html', context=context)
 
-
+# function decorator to require user's user type to be scheduler for access, redirect and disallow if not
 def scheduler_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/ADTAA/'):
     actual_decorator = user_passes_test(
         lambda u: u.user_type == "scheduler",
@@ -77,7 +83,7 @@ def scheduler_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, l
         return actual_decorator(function)
     return actual_decorator
 
-
+# function decorator to require user's user type to be admin for access, redirect and disallow if not
 def admin_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/ADTAA/'):
     actual_decorator = user_passes_test(
         lambda u: u.user_type == "admin",
@@ -88,7 +94,7 @@ def admin_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login
         return actual_decorator(function)
     return actual_decorator
 
-
+# function decorator to require user's user type to be root for access, redirect and disallow if not
 def root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/ADTAA/'):
     actual_decorator = user_passes_test(
         lambda u: u.user_type == "root",
@@ -99,7 +105,7 @@ def root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_
         return actual_decorator(function)
     return actual_decorator
 
-
+# function decorator to require user's user type to be admin or root for access, redirect and disallow if not
 def admin_root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/ADTAA/'):
     actual_decorator = user_passes_test(
         lambda u: u.user_type == "root" or u.user_type == "admin",
@@ -110,7 +116,7 @@ def admin_root_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
         return actual_decorator(function)
     return actual_decorator
 
-
+# function to return the homepage of root user to user that is logged in and has user type as root
 @login_required
 @root_required
 def root_home_page(request):
@@ -121,7 +127,7 @@ def root_home_page(request):
         'instructors': instructors_list,
         'classes': classes_list,
     }
-
+    # allow root user to delete a chosen instructor or class in the root home page
     if request.method == 'POST':
         if 'instrDelete' in request.POST:
             instructor_id = request.POST.get("instrDelete", "")
@@ -135,6 +141,7 @@ def root_home_page(request):
     return render(request, 'ADTAA/rootHome.html', context)
 
 
+# function to return the homepage of admin user to user that is logged in and has user type as admin
 @login_required
 @admin_required
 def admin_home_page(request):
@@ -145,7 +152,7 @@ def admin_home_page(request):
         'instructors': instructors_list,
         'classes': classes_list,
     }
-
+    # allow root user to delete a chosen instructor or class in the admin home page
     if request.method == 'POST':
         if 'instrDelete' in request.POST:
             instructor_id = request.POST.get("instrDelete", "")
@@ -159,12 +166,14 @@ def admin_home_page(request):
     return render(request, 'ADTAA/adminHome.html', context)
 
 
+# function to return the homepage of scheduler user to user that is logged in and has user type as scheduler
 @login_required
 @scheduler_required
 def scheduler_home_page(request):
     instructors_list = ADTAA_models.Instructor.objects.all
     classes_list = ADTAA_models.Class.objects.all
-
+    # only returns list of instructors and classes for view in the scheduler home page
+    # does not allow scheduler user to delete or edit a specifically chosen instructor or class
     context = {
         'instructors': instructors_list,
         'classes': classes_list,
@@ -172,17 +181,8 @@ def scheduler_home_page(request):
     return render(request, 'ADTAA/schedulerHome.html', context)
 
 
-@login_required
-@admin_root_required
-def setup_instructor(request):
-    username = request.session.get('username', '0')
-    user = ADTAA_models.BaseUser.objects.get(username=username)
-    context = {
-        'user_type': user.user_type
-    }
-    return render(request, 'ADTAA/instrSetup.html', context)
-
-
+# get the username info of the user to check in the BaseUser model to see the user type of that user
+# if user's user type is admin, return the admin's navigation bar
 @login_required(login_url='/ADTAA/')
 def admin_nav(request):
     username = request.session.get('username', '0')
@@ -193,6 +193,8 @@ def admin_nav(request):
     return render(request, 'ADTAA/adminNav.html', context)
 
 
+# get the username info of the user to check in the BaseUser model to see the user type of that user
+# if user's user type is root, return the root's navigation bar
 @login_required(login_url='/ADTAA/')
 def root_nav(request):
     username = request.session.get('username', '0')
@@ -203,6 +205,8 @@ def root_nav(request):
     return render(request, 'ADTAA/rootNav.html', context)
 
 
+# get the username info of the user to check in the BaseUser model to see the user type of that user
+# if user's user type is scheduler, return the scheduler's navigation bar
 @login_required(login_url='/ADTAA/')
 def scheduler_nav(request):
     username = request.session.get('username', '0')
@@ -213,6 +217,7 @@ def scheduler_nav(request):
     return render(request, 'ADTAA/schedulerNav.html', context)
 
 
+# function that returns the edit solution form to the user
 @login_required(login_url='/ADTAA/')
 def edit_solutions(request):
     username = request.session.get('username', '0')
@@ -223,7 +228,7 @@ def edit_solutions(request):
         'user_type': user.user_type,
         'form': form
     }
-
+    # gets the list of class and their assigned instructors and allows user to change the assigned instructor values
     if request.method == 'POST':
         instructors = request.POST.getlist('instructors')
         class_num = 0
@@ -232,7 +237,7 @@ def edit_solutions(request):
             temp['instructors'] = i
             form = ADTAA_forms.SolutionForm(temp)
             if form.is_valid():
-                form.save(class_num)
+                form.save(class_num)  # save the form as is to the database with classes and their chosen assigned instr
             class_num += 1
 
     return render(request, 'ADTAA/editSolutions.html', context)
@@ -409,7 +414,6 @@ class GenerateSolutions(View):
             username = request.session.get('username', '0')
             user = ADTAA_models.BaseUser.objects.get(username=username)
             context = {
-                'save': "Solution Printed!",
                 'user_type': user.user_type
             }
             return render(request, 'ADTAA/generateSolutions.html', context)
@@ -447,6 +451,7 @@ class GenerateSolutions(View):
             return render(request, 'ADTAA/generateSolutions.html', context)
 
 
+# class to return the Registration form page to the user
 class Register(View):
     form_class = ADTAA_forms.RegistrationForm
 
@@ -474,7 +479,7 @@ class Register(View):
             }
 
             return render(request, 'ADTAA/reg.html', context)
-
+        # saves the credentials of the new user and sends the root user an email notifying the requested user's registration
         new_user = self.registration_form.save()
         request.session['new_username'] = new_user.username
         subject = 'ADTAA NEW USER REGISTRATION'
@@ -483,15 +488,17 @@ class Register(View):
         recipient_list = ['txzolbayar@ualr.edu', ]
         send_mail(subject, body, email_from, recipient_list, fail_silently=False)
         messages.success(request, 'Thank you for registering. You registration request is awaiting approval.')
-
+        # redirect registrated user to the login page with message stating successful registration
         return redirect('/ADTAA')
 
 
+# log user out of the application
 def logout(request):
     auth.logout(request)
     return render(request, 'ADTAA/logout.html')
 
 
+# class to return the Change Password form page
 class ChangePassword(View):
     form_class = ADTAA_forms.ChangePasswordForm
 
@@ -535,11 +542,12 @@ class ChangePassword(View):
                 'password_form': self.password_form,
             }
             return render(request, 'ADTAA/password.html', context)
-
+        # save the credentials provided by the user and redirect to the login page with a success message
         self.password_form.save()
         messages.success(request, 'Your Password Has Been Changed.')
         return redirect('/ADTAA')
-
+    # check username of user requesting to change password to make sure that the user is a registered user
+    # in the database
     @staticmethod
     def check_username(request):
         """
@@ -577,6 +585,8 @@ class ChangePassword(View):
             raise_unexpected_error(e)
 
 
+# function that returns the user page to the user
+# allows user to post an email that will be sent to minddebuggers
 @login_required(login_url='/ADTAA/')
 def user_page(request):
     username = request.session.get('username', '0')
@@ -588,12 +598,16 @@ def user_page(request):
         subject = 'ADTAA USER EXPERIENCE'
         body = request.POST['body']
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = ['tzolbayar58@gmail.com', ]
+        recipient_list = ['minddebuggers@gmail.com', ]
         send_mail(subject, body, email_from, recipient_list, fail_silently=False)
         messages.success(request, 'EMAIL HAS BEEN SENT SUCCESSFULLY.')
     return render(request, 'ADTAA/userPage.html', context)
 
 
+# function for root user to view registered users with isApproved as 'no' and allow root user to approve or deny
+# the registered user. If approved, registered user will be sent an email regarding approval and be allowed to
+# access the app. If denied, registered user will be sent an email regarding denial and will not be allowed
+# to access the app.
 @login_required
 @root_required
 def regRequests(request):
@@ -628,6 +642,7 @@ def regRequests(request):
     return render(request, 'ADTAA/regRequests.html', context)
 
 
+# class to return Add Class form page to allow admin and root users to add a new class to the Class in Models
 @method_decorator(admin_root_required, name='get')
 class AddClass(View):
     form_class = ADTAA_forms.ClassForm
@@ -658,6 +673,7 @@ class AddClass(View):
         return redirect('/ADTAA/classSetup')
 
 
+# class to return Add Instructor form page to allow admin and root users to add a new class to the Instructor in Models
 @method_decorator(admin_root_required, name='get')
 class AddInstructor(View):
     form_instructor = ADTAA_forms.InstructorForm
@@ -688,13 +704,14 @@ class AddInstructor(View):
         return redirect('/ADTAA/instrSetup')
 
 
+# function to allow admin or root user to edit a chosen instructor in the database
 @login_required
 @admin_root_required
 def edit_instructor(request, pk):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     instructor = ADTAA_models.Instructor.objects.get(id=pk)
-
+    # gets the id of the instructor to link it to the chosen instructor
     form = ADTAA_forms.NewInstructorForm(instance=instructor)
 
     context = {
@@ -710,13 +727,14 @@ def edit_instructor(request, pk):
     return render(request, 'ADTAA/editInstr.html', context)
 
 
+# function to allow admin or root user to edit a chosen class in the database
 @login_required
 @admin_root_required
 def edit_class(request, pk):
     username = request.session.get('username', '0')
     user = ADTAA_models.BaseUser.objects.get(username=username)
     course = ADTAA_models.Class.objects.get(id=pk)
-
+    # gets the id of the class to link it to the chosen class
     form = ADTAA_forms.NewClassForm(instance=course)
 
     context = {
@@ -732,6 +750,7 @@ def edit_class(request, pk):
     return render(request, 'ADTAA/editClass.html', context)
 
 
+# function that returns profile page of instructor in database for approved user to view information on the instructor
 @login_required
 def instructor_profile(request, pk):
     username = request.session.get('username', '0')
@@ -742,6 +761,7 @@ def instructor_profile(request, pk):
         'user_type': user.user_type,
         'instructor': instructor,
     }
+    # if user is root or admin, allow the user to be able to delete the instructor from the database
     if request.method == 'POST':
         if 'instrDelete' in request.POST:
             instructor = ADTAA_models.Instructor.objects.get(instructor_id=instructor)
@@ -750,6 +770,7 @@ def instructor_profile(request, pk):
     return render(request, 'ADTAA/instructorProfile.html', context)
 
 
+# function that returns profile page of class in database for approved user to view information on the class
 @login_required
 def class_profile(request, pk):
     username = request.session.get('username', '0')
@@ -760,6 +781,7 @@ def class_profile(request, pk):
         'user_type': user.user_type,
         'course': course,
     }
+    # if user is root or admin, allow the user to be able to delete the class from the database
     if request.method == 'POST':
         if 'classDelete' in request.POST:
             course = ADTAA_models.Class.objects.get(course_number=course)
