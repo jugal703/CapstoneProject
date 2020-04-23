@@ -10,7 +10,9 @@ from ADTAA.globals import raise_unexpected_error
 
 import ADTAA.models as base_models
 
-
+# validator to check the input of user's chosen password in ChangePassword and Registration forms
+# user's chosen password must be at 8 characters long, have numbers, and have special characters.
+# if it does not contain the above, throw error
 class CustomPasswordValidator:
 
     def __init__(self, min_length=1):

@@ -37,7 +37,7 @@
         </ul>
     {% endif %}
 
-    <p class="message" style="left: 1%;">Change Password? <a href="http://127.0.0.1:8000/ADTAA/password">Click Here</a></p>
+    <p class="message" style="left: 1%;">Change Password? <a href={% url 'password' %}>Click Here</a></p>
     <form method="post">
         {% csrf_token %}
         <p> Experiencing Problems? Write an email specifying your problem to us!</p>
