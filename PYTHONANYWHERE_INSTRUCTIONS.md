@@ -30,4 +30,4 @@
 <img width="423" alt="Screen Shot 2020-04-25 at 9 25 48 PM" src="https://user-images.githubusercontent.com/40209641/80295807-62491b80-873b-11ea-9d76-de4b68ebfbd3.png">
 
 11. Go to Web App to see it deployed and available
-* `http://tzolba.pythonanywhere.com/ADTAA/`
+* http://tzolba.pythonanywhere.com/ADTAA/
